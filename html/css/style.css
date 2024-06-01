@@ -1,0 +1,25 @@
+.page-content .page-main .user-container {
+	background-color: #59CC59;
+	padding-top: 5rem;
+	color: white;
+	min-height: 100vh;
+}
+
+.page-content .page-main .rider-container {
+	background-color: white;
+	padding-top: 5rem;
+	color: #59CC59;
+	min-height: 100vh;
+}
+
+@media screen and (max-device-width: 850px) {
+	.page-content .page-main .user-container {
+		padding-top: 2rem;
+		padding-bottom: 2rem;
+	}
+
+	.page-content .page-main .rider-container {
+		padding-top: 2rem;
+		padding-bottom: 2rem;
+	}
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Admin Login</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+	<link rel="stylesheet" href="/html/css/general.css">
+	<link rel="stylesheet" href="/html/css/admin.css">
+	<link rel="stylesheet" href="/html/css/admin_login.css">
+</head>
+<body>
+	<div class="page-content-login-container">
+		<div class="form-group col-12 text-center">
+			<h1 class="content-login-header-title">Bookyow</h1>
+			<h3 class="content-login-header-sub-title">Admin Login</h3>
+		</div>
+		<form method="POST" class="page-content-login-form">
+			<div class="form-group">
+				<input type="text" name="username" class="form-control" placeholder="Username">
+			</div>
+			<div class="form-group">
+				<input type="password" name="password" class="form-control" placeholder="Password">
+			</div>
+			<div class="form-group text-center">
+				<p class="text-danger" id="error_text"></p>
+				<button type="submit" name="admin_login" class="btn btn-primary btn-block">Sign in</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
+<script src="/html/js/admin_login.js"></script>

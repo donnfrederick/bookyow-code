@@ -1,0 +1,51 @@
+	<div class="page-mobile">
+		<div class="page-navigation">
+			<ul>
+				<a href="/rider">
+					<li>
+						<img src="/html/imgs/house_light.png">
+					</li>
+				</a>
+				<a href="/rider/bookings">
+					<li>
+						<img src="/html/imgs/booking_light.png">
+					</li>
+				</a>
+				<a href="/rider/map">
+					<li>
+						<img src="/html/imgs/map_light.png">
+					</li>
+				</a>
+				<a href="/rider/settings">
+					<li class="active">
+						<img src="/html/imgs/settings.png">
+					</li>
+				</a>
+			</ul>
+		</div>
+		<div class="page-settings">
+			<div class="content-user-pannel">
+			<?php if ($app->userData()->image_id != null) { $image_data = find($app->userData()->image_id, 't_uploads'); ?>
+				<img src="/html/imgs/<?=$image_data['file']?>">
+			<?php } else { ?>
+				<img src="/html/imgs/user.png">
+			<?php } ?>
+				<h1><?=$app->userData()->firstname?> <?=$app->userData()->lastname?></h1>
+			</div>
+			<br>
+			<div class="content-settings-navigation last-element">
+				<ul>
+					<label>Funds</label>
+					<a href="/rider/transactions"><li><i class="fa fa-history"></i>Transactions</li></a>
+					<a href="/rider/cashout"><li><i class="fa fa-coins"></i>Cash out</li></a>
+					<label>Profile</label>
+					<a href="/rider/profile"><li><i class="fa fa-user"></i>My Profile</li></a>
+					<label>History</label>
+					<a href="/rider/rides"><li><i class="fa fa-calendar-day"></i>Booking History</li></a>
+					<label>Account</label>
+					<a href="/rider/verification"><li><i class="fa fa-address-card"></i>Verification</li></a>
+					<a href="/logout"><li><i class="fa fa-power-off"></i>Sign Out</li></a>
+				</ul>
+			</div>
+		</div>
+	</div>

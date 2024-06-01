@@ -1,0 +1,109 @@
+			<div class="page-content-row">
+				<div class="page-content-full">
+					<h1 class="content-title"><i class="fa fa-user-check"></i> Verification Requests</h1>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Rider Name</th>
+								<th>Email</th>
+								<th>Phone Number</th>
+								<th>Date Requested</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php if ($verification_reqs) { ?>
+							<?php foreach ($verification_reqs as $verification_req) { $rider = descFind($verification_req['rider_id'], 'm_user'); $rider_id = $verification_req['rider_id']; $vehicle_or_id = $verification_req['vehicle_or']; $vehicle_cr_id = $verification_req['vehicle_cr']; $vehicle_id = $verification_req['vehicle']; $vehicle_color = $verification_req['color']; $vehicle_plate_number = $verification_req['plate_number']; $verification_req_id = $verification_req['id']; ?>
+							<tr>
+								<td><?=$verification_req['id']?></td>
+								<td><?=$rider['firstname'].' '.$rider['lastname']?></td>
+								<td><?=$rider['email']?></td>
+								<td><?=$rider['phone_number']?></td>
+								<td><?=date('F d, Y', strtotime($verification_req['create_date']))?></td>
+								<td><button type="button" class="btn btn-primary" onclick='putContentsOnDisplay(<?=getRiderUploads($rider_id, $vehicle_or_id, $vehicle_cr_id, $vehicle_id, $vehicle_color, $vehicle_plate_number, $verification_req_id);?>)' data-toggle="modal" data-target="#modal_view_verification"><i class="fa fa-ellipsis-h"></i></button></td>
+							</tr>
+							<?php } ?>
+						<?php } else { ?>
+							<tr>
+								<td>No result</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						<?php } ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="modal fade" id="modal_view_verification" role="dialog">
+			    <div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Verification Request</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<div>Driver's License: <a href="" id="license" target="_blank"><i class="fa fa-image"></i> View File</a></div>
+							</div>
+							<div class="form-group">
+								<div>Selfie with Driver's License: <a href="" id="selfie" target="_blank"><i class="fa fa-image"></i> View File</a></div>
+							</div>
+							<div class="form-group">
+								<div>Vehicle Official Receipt: <a href="" id="vehicle_or" target="_blank"><i class="fa fa-image"></i> View File</a></div>
+							</div>
+							<div class="form-group">
+								<div>Vehicle Certificate of Registration: <a href="" id="vehicle_cr" target="_blank"><i class="fa fa-image"></i> View File</a></div>
+							</div>
+							<div class="form-group">
+								<div>Vehicle Photo: <a href="" id="vehicle" target="_blank"><i class="fa fa-image"></i> View File</a></div>
+							</div>
+							<div class="form-group">
+								<div>Color: <span id="color"></span></div>
+							</div>
+							<div class="form-group">
+								<div>Plate Number: <span id="plate_number"></span></div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<form method="POST">
+								<input type="hidden" name="verification_req_id">
+								<button class="btn btn-primary" name="approve" type="submit">Approve</button>
+								<button class="btn btn-danger" name="decline" type="submit">Decline</button>
+							</form>
+						</div>
+					</div>
+			    </div>
+			</div>
+			<script>
+				function putContentsOnDisplay(arr_data) {
+					$('#license').attr('href', '/html/imgs/'+arr_data.license);
+					$('#selfie').attr('href', '/html/imgs/'+arr_data.selfie);
+					$('#vehicle_or').attr('href', '/html/imgs/'+arr_data.vehicle_or);
+					$('#vehicle_cr').attr('href', '/html/imgs/'+arr_data.vehicle_cr);
+					$('#vehicle').attr('href', '/html/imgs/'+arr_data.vehicle);
+					$('#color').text(arr_data.color);
+					$('#plate_number').text(arr_data.plate_number);
+					$('input[name=verification_req_id]').val(arr_data.verification_req_id);
+				}
+
+				$('button[name=approve]').click(function() {
+					var x = confirm('Approve this verification request?');
+
+					if (!x) {
+						event.preventDefault();
+					}
+				});
+
+				$('button[name=decline]').click(function() {
+					var x = confirm('Decline this verification request?');
+
+					if (!x) {
+						event.preventDefault();
+					}
+				});
+			</script>

@@ -1,0 +1,12 @@
+<?php
+
+array_shift($argv);
+
+$console_command = array_shift($argv);
+$console_class = array_shift($argv);
+$console_value = array_shift($argv);
+$console_vars = array_shift($argv);
+
+require realpath('./').'/vendor/autoload/_init.php';
+require realpath('./').'/vendor/Entity/index.php';
+require realpath('./').'/vendor/Router/index.php';

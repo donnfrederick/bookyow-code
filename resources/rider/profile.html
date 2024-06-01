@@ -1,0 +1,228 @@
+<div class="page-mobile">
+		<div class="page-navigation">
+			<ul>
+				<a href="/rider">
+					<li>
+						<img src="/html/imgs/house_light.png">
+					</li>
+				</a>
+				<a href="/rider/bookings">
+					<li>
+						<img src="/html/imgs/booking_light.png">
+					</li>
+				</a>
+				<a href="/rider/map">
+					<li>
+						<img src="/html/imgs/map_light.png">
+					</li>
+				</a>
+				<a href="/rider/settings">
+					<li class="active">
+						<img src="/html/imgs/settings.png">
+					</li>
+				</a>
+			</ul>
+		</div>
+		<button onclick="window.location.href = '/rider/settings'" class="content-back-button"><i class="fa fa-arrow-left"></i></button>
+		<div class="row text-center top-6">
+			<div class="content-user-pannel">
+			<?php if ($app->userData()->image_id != null) { $image_data = find($app->userData()->image_id, 't_uploads'); ?>
+				<img src="/html/imgs/<?=$image_data['file']?>">
+			<?php } else { ?>
+				<img src="/html/imgs/user.png">
+			<?php } ?>
+				<h1><?=$app->userData()->firstname?> <?=$app->userData()->lastname?></h1>
+			</div>
+		</div>
+		<div class="page-settings-content top-4 last-element">
+			<div class="content-card-item text-left">
+				<div class="card-item-header">
+					<div class="header-left">
+						<p>
+							Profile
+						</p>
+					</div>
+				</div>
+				<div class="content-card-information">
+					<span class="text-muted">Name: </span><?=$app->userData()->firstname?> <?=$app->userData()->lastname?> <i class="fa fa-pen text-muted profile-edit-button" data-toggle="modal"
+					data-target="#modal_change_name"></i>
+					<br>
+					<br>
+					<span class="text-muted">Contact Number: </span><?=$app->userData()->phone_number?> <i class="fa fa-pen text-muted profile-edit-button" data-toggle="modal" data-target="#modal_change_number"></i><br>
+					<br>
+					<span class="text-muted">Profile Picture: </span><?=$app->userData()->image_name?> <i class="fa fa-pen text-muted profile-edit-button" data-toggle="modal" data-target="#modal_change_image"></i>
+				</div>
+			</div>
+			<div class="content-card-item text-left">
+				<div class="card-item-header">
+					<div class="header-left">
+						<p>
+							Sign in
+						</p>
+					</div>
+				</div>
+				<div class="content-card-information">
+					<span class="text-muted">Email: </span><?=$app->userData()->email?> <i class="fa fa-pen text-muted profile-edit-button" data-toggle="modal" data-target="#modal_change_email"></i>
+					<br>
+					<br>
+					<span class="text-muted">Password: </span>********** <i class="fa fa-pen text-muted profile-edit-button" data-toggle="modal" data-target="#modal_change_password"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="modal_change_name" role="dialog">
+	    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Change Name</h4>
+				</div>
+				<div class="modal-body">
+					<form method="POST" id="form_change_name">
+						<div class="form-group">
+							<input class="form-control" type="text" required name="firstname" placeholder="Firstname" value="<?=$app->userData()->firstname?>">
+						</div>
+						<div class="form-group">
+							<input class="form-control" type="text" required name="lastname" placeholder="Lastname" value="<?=$app->userData()->lastname?>">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" name="change_name" type="submit" form="form_change_name">Save Changes</button>
+					<button class="btn btn-danger" data-dismiss="modal">Discard</button>
+				</div>
+			</div>
+	    </div>
+	</div>
+
+	<div class="modal fade" id="modal_change_number" role="dialog">
+	    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Change Phone Number</h4>
+				</div>
+				<div class="modal-body">
+					<form method="POST" id="form_change_number">
+						<div class="form-group">
+							<input class="form-control" type="text" maxlength="11" required name="phone_number" placeholder="Phone Number" value="<?=$app->userData()->phone_number?>">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" name="change_number" type="submit" form="form_change_number">Save Changes</button>
+					<button class="btn btn-danger" data-dismiss="modal">Discard</button>
+				</div>
+			</div>
+	    </div>
+	</div>
+
+	<div class="modal fade" id="modal_change_image" role="dialog">
+	    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Change Profile Picture</h4>
+				</div>
+				<div class="modal-body">
+					<form method="POST" id="form_change_image" enctype="multipart/form-data">
+						<div class="form-group">
+							<input class="form-control" type="file" required name="image" placeholder="Profile Picture" accept="image/*">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" name="change_image" type="submit" form="form_change_image">Save Changes</button>
+					<button class="btn btn-danger" data-dismiss="modal">Discard</button>
+				</div>
+			</div>
+	    </div>
+	</div>
+
+	<div class="modal fade" id="modal_change_email" role="dialog">
+	    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Change Email Address</h4>
+				</div>
+				<div class="modal-body">
+					<form method="POST" id="form_change_email">
+						<div class="form-group">
+							<input class="form-control" type="email" required name="email" placeholder="Email Address" value="<?=$app->userData()->email?>">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" name="change_email" type="submit" form="form_change_email">Save Changes</button>
+					<button class="btn btn-danger" data-dismiss="modal">Discard</button>
+				</div>
+			</div>
+	    </div>
+	</div>
+
+	<div class="modal fade" id="modal_change_password" role="dialog">
+	    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Change Password</h4>
+				</div>
+				<div class="modal-body">
+					<form method="POST" id="form_change_password">
+						<div class="form-group">
+							<input class="form-control" type="password" required name="old_pass" placeholder="Old Password">
+						</div>
+						<div class="form-group">
+							<input class="form-control" type="password" required name="new_pass" placeholder="New Password">
+						</div>
+						<div class="form-group">
+							<input class="form-control" type="password" required name="confirm_pass" placeholder="Confirm Password">
+						</div>
+					</form>
+					<div class="form-group col-12 text-center">
+						<p class="text-danger" id="change_pass_error"></p>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" name="change_password" type="submit" form="form_change_password">Save Changes</button>
+					<button class="btn btn-danger" data-dismiss="modal">Discard</button>
+				</div>
+			</div>
+	    </div>
+	</div>
+
+	<script>
+		$('button[name=change_password]').click(function() {
+			var old_pass = $('input[name=old_pass]').val();
+			var new_pass = $('input[name=new_pass]').val();
+			var confirm_pass = $('input[name=confirm_pass]').val();
+
+			var vars = [old_pass, new_pass, confirm_pass];
+
+			var errs = 0;
+
+			vars.map((value) => {
+				if (value == '') {
+					errs = errs + 1;
+				}
+			});
+
+			if (errs == 0) {
+				event.preventDefault();
+				$.ajax({
+					url: '/api/change/password',
+					method: 'post',
+					data: {
+						old_pass:old_pass,
+						new_pass:new_pass,
+						confirm_pass:confirm_pass
+					},
+					success:function(response) {
+						var data = JSON.parse(response);
+
+						if (data.result != 'error') {
+							window.location.reload();
+						} else {
+							$('#change_pass_error').html(data.error);
+						}
+					}
+				});
+			}
+		});
+	</script>

@@ -1,0 +1,70 @@
+		<?php $app->checkLogin(1, '/login'); ?>
+		<div class="page-main">
+			<div class="default-page" style="margin-top: 5rem;">
+				<img src="/html/imgs/arrived.png">
+				<h3>Ride Completed</h3>
+				<?php if (!$req->get()->crc) { ?>
+				<p><i class="fa fa-exclamation-triangle"></i> We are unable to charge you for this ride</p>
+				<?php } ?>
+				<div class="page-content-rating">
+					<p>Leave a rating to rider</p>
+					<h4>
+						<i id="rate_1" data-value="1" class="fa fa-star"></i>
+						<i id="rate_2" data-value="2" class="fa fa-star"></i>
+						<i id="rate_3" data-value="3" class="fa fa-star"></i>
+						<i id="rate_4" data-value="4" class="fa fa-star"></i>
+						<i id="rate_5" data-value="5" class="fa fa-star"></i>
+					</h4>
+					<div class="form-group col-12">
+						<textarea id="rate_comment" class="form-control col-8" placeholder="Please leave a comment" style="margin: auto;"></textarea>
+					</div>
+					<div class="form-group add-favorites">
+						<input class="check-add-favorites" type="checkbox" id="add_fav">
+						<label for="add_fav">Add this rider to favorite</label>
+					</div>
+				</div>
+				<a id="continue">Continue</a>
+			</div>
+		</div>
+		<script>
+			var customer_id = <?=numhash($ride_details['customer_id'])?>;
+			var rider_id = <?=numhash($ride_details['rider_id'])?>;
+			var ride_id = <?=numhash($ride_details['id'])?>;
+
+			$('.fa').click(function() {
+				$('.fa').removeClass('rated');
+
+				var data_val = $(this).attr('data-value');
+				for (i=1;i<=data_val;i++) {
+					$('#rate_'+i).addClass('rated');
+				}
+			});
+
+			$('#continue').click(function() {
+				var rate_rating = $('.rated').length;
+				var rate_comment = $('#rate_comment').val();
+				var add_fav = $('input[type=checkbox]:checked').length;
+
+				$.ajax({
+					url: '/api/rate/rider',
+					method: 'post',
+					data: {
+						customer_id:customer_id,
+						rider_id:rider_id,
+						ride_id:ride_id,
+						rate_rating:rate_rating,
+						rate_comment:rate_comment,
+						add_fav:add_fav
+					},
+					success:function(response) {
+						var data = JSON.parse(response);
+
+						if (data.result != 'error') {
+							window.location.href = '/';
+						} else {
+							console.log(data.error);
+						}
+					}
+				});
+			});
+		</script>

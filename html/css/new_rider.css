@@ -1,0 +1,779 @@
+/*General Design for User*/
+* {
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+}
+body {
+	background-color: #ECECEC;
+	overflow: hidden;
+}
+.page-mobile {
+	width: 35%;
+	height: 100vh;
+	margin: auto;
+	background-color: white;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+.page-navigation {
+	width: inherit;
+	height: 8rem;
+	margin: auto;
+	background-color: #59CC59;
+	position: fixed;
+	bottom: 0;
+	color: white;
+	z-index: 5;
+}
+.page-navigation ul {
+	display: table;
+	text-align: center;
+	width: 100%;
+	height: 100%;
+}
+.page-navigation ul a li {
+	display: inline-block;
+	margin-left: 1rem;
+	margin-right: 1rem;
+	height: 100%;
+	padding: 1.3rem 3rem 0 3rem;
+	text-align: center;
+}
+.page-navigation ul a .active {
+	display: inline-block;
+	margin-left: 1rem;
+	margin-right: 1rem;
+	height: 100%;
+	padding: 1.3rem 3rem 0 3rem;
+	text-align: center;
+	background-color: white;
+}
+.page-navigation ul a li img {
+	width: 4.5rem;
+}
+.page-rider-searching {
+	margin-top: 20%;
+}
+.content-searching {
+	font-size: 400%;
+}
+@media screen and (max-width: 1750px) {
+	.page-mobile {
+		width: 45%;
+	}
+	.page-navigation {
+		height: 6rem;
+	}
+	.page-navigation ul a li {
+		width: 24%;
+		margin: auto;
+	}
+	.page-navigation ul a .active {
+		width: 24%;
+		margin: auto;
+	}
+	.page-navigation ul a li img {
+		width: 3.5rem;
+	}
+}
+@media screen and (max-width: 1500px) {
+	.page-mobile {
+		width: 45%;
+	}
+	.page-navigation {
+		height: 6rem;
+	}
+	.page-navigation ul a li {
+		width: 24%;
+		margin: auto;
+	}
+	.page-navigation ul a .active {
+		width: 24%;
+		margin: auto;
+	}
+	.page-navigation ul a li img {
+		width: 3.5rem;
+	}
+}
+@media screen and (max-width: 1250px) {
+	.page-mobile {
+		width: 55%;
+	}
+}
+@media screen and (max-width: 1000px) {
+	.page-mobile {
+		width: 75%;
+	}
+	.page-navigation ul a li {
+		padding: 1.3rem 2rem 0 2rem;
+	}
+	.page-navigation ul a .active {
+		padding: 1.3rem 2rem 0 2rem;
+	}
+}
+@media screen and (max-width: 750px) {
+	.page-mobile {
+		width: 100%;
+	}
+}
+@media screen and (max-width: 500px) {
+	.page-mobile {
+		width: 100%;
+	}
+	.page-navigation ul a li {
+		padding: 1.3rem 0 0 0;
+	}
+	.page-navigation ul a .active {
+		padding: 1.3rem 0 0 0;
+	}
+}
+
+
+
+
+
+/*Home Design for User*/
+.content-fix-book {
+	width: 30%;
+	background-color: rgba(255, 255, 255, 0.6);
+	position: fixed;
+	bottom: 0;
+	color: #59CC59;
+	z-index: 5;
+	margin-bottom: 10rem;
+	border: 1px solid #59CC59;
+	font-size: 170%;
+	left: 35%;
+	padding: 1.5rem;
+	border-radius: 2rem;
+}
+.button-submit-location {
+	width: 30%;
+	background: rgba(89, 204, 89, 0.6);
+	position: fixed;
+	bottom: 0;
+	color: white;
+	z-index: 5;
+	margin-bottom: 10rem;
+	border: none;
+	font-size: 170%;
+	left: 35%;
+	padding: 1.5rem;
+	border-radius: 2rem;
+}
+.page-header-title {
+	width: 100%;
+	text-align: center;
+	color: #59CC59;
+}
+.page-header-title h1 {
+	border: none;
+	font-size: 350%;
+}
+.page-account-card {
+	width: 100%;
+	text-align: center;
+	align-items: center;
+}
+.content-account-card {
+	width: 70%;
+	height: 200px;
+	margin: auto;
+	border-radius: 3rem;
+	color: white;
+	display: flex;
+	margin-top: 6rem;
+}
+.content-account-card:hover {
+	color: white;
+	text-decoration: none;
+}
+.content-account-card:focus {
+	color: white;
+	text-decoration: none;
+}
+.content-account-card .account, .content-account-card .icon {
+	display: inline-block;
+	margin: auto;
+}
+.content-account-card .account {
+	width: 60%;
+	height: 5rem;
+	text-align: left;
+	padding-left: 4.5rem;
+}
+.content-account-card .account h3 {
+	margin-top: -2rem;
+}
+.content-account-card .account h1 {
+	margin-left: 1rem;
+}
+.content-account-card .account h2 {
+	margin-left: 1rem;
+}
+.content-account-card .icon {
+	width: 30%;
+}
+.content-account-card .icon img {
+	width: 7rem;
+}
+.page-address-card {
+	width: 100%;
+	text-align: center;
+	align-items: center;
+	margin-top: 6rem;
+}
+.content-address-card {
+	width: 70%;
+	height: 200px;
+	background-color: #59CC59;
+	margin: auto;
+	border-radius: 3rem;
+	color: white;
+	padding: 2rem;
+	text-align: left;
+}
+.home-button-add-addres:hover {
+	color: white;
+}
+.home-button-add-addres:focus {
+	outline: none !important;
+	border: none;
+	color: white;
+}
+.page-ride-history {
+	padding: 1rem;
+	width: 100%;
+	text-align: center;
+}
+.page-transfer-history {
+	padding: 1rem;
+	width: 100%;
+	text-align: center;
+	margin-bottom: 20rem;
+}
+.page-settings-content {
+	padding: 1rem;
+	width: 100%;
+	text-align: center;
+	margin-bottom: 20rem;
+}
+.content-title {
+	color: #BEBEBE;
+	font-weight: bold;
+}
+.content-text {
+	color: #BEBEBE;
+}
+.content-ride-history {
+	width: 70%;
+	margin: auto;
+	padding: 3rem;
+	margin-top: 2rem;
+	border: 1px solid #ECECEC;
+	border-radius: 2rem;
+	color: #8E8E8E;
+}
+.content-ride-header {
+	width: 100%;
+	display: flex;
+}
+.content-ride-header .account-update {
+	width: 40%;
+	display: inline-block;
+}
+.content-ride-header .account-update p {
+	font-size: 150%;
+}
+.content-ride-header .ride-date {
+	width: 55%;
+	display: inline-block;
+	text-align: right;
+}
+.content-ride-from h5 {
+	color: #858558;
+}
+.content-ride-from p {
+	margin-left: 1.5rem;
+}
+.content-ride-to h5 {
+	color: #858558;
+}
+.content-ride-to p {
+	margin-left: 1.5rem;
+}
+.content-transfer-history {
+	width: 70%;
+	margin: auto;
+	padding: 3rem;
+	margin-top: 2rem;
+	border: 1px solid #ECECEC;
+	border-radius: 2rem;
+	color: #8E8E8E;
+}
+.content-card-item {
+	width: 70%;
+	margin: auto;
+	padding: 3rem;
+	margin-top: 2rem;
+	border: 1px solid #ECECEC;
+	border-radius: 2rem;
+	color: #8E8E8E;
+}
+.content-transfer-header {
+	width: 100%;
+	display: flex;
+}
+.content-transfer-header .account-update {
+	width: 40%;
+	display: inline-block;
+}
+.content-transfer-header .account-update p {
+	font-size: 150%;
+}
+.content-transfer-header .transfer-date {
+	width: 55%;
+	display: inline-block;
+	text-align: right;
+}
+.card-item-header {
+	width: 100%;
+}
+.card-item-header p {
+	font-size: 120%;
+}
+.card-item-header {
+	width: 100%;
+	display: flex;
+}
+.card-item-header .header-left {
+	width: 40%;
+	display: inline-block;
+}
+.card-item-header .header-left p {
+	font-size: 120%;
+}
+.card-item-header .header-date {
+	width: 55%;
+	display: inline-block;
+	text-align: right;
+}
+.content-card-information {
+	padding: 1rem;
+}
+.view-more {
+	margin-top: 2rem;
+}
+.view-more a {
+	font-size: 120%;
+}
+@media screen and (max-width: 500px) {
+	.content-transfer-history {
+		width: 90%;
+		padding: 1rem;
+		padding-top: 1.5rem;
+	}
+	.content-card-item {
+		width: 90%;
+		padding: 1rem;
+		padding-top: 1.5rem;
+	}
+	.content-account-card .account {
+		padding: 0;
+	}
+	.content-ride-history {
+		width: 95%;
+		margin: auto;
+		padding: 3rem 2rem 3rem 2rem;
+		margin-top: 2rem;
+	}
+	.content-account-card {
+		width: 90%;
+	}
+}
+
+
+
+
+/*Map Design for User*/
+.page-location {
+	z-index: 1;
+	position: absolute;
+	width: inherit;
+	padding: 2rem 0 0 0;
+	background-color: rgba(23, 38, 60, 0.4);
+	padding: 2rem;
+	text-align: center;
+}
+.page-location input {
+	font-size: 140%;
+	padding: 2.5rem;
+}
+.page-location #white_error {
+	font-size: 130%;
+	color: white;
+}
+.page-map {
+	width: 100%;
+	height: 50vw;
+	z-index: 0;
+}
+.page-content-rider-details {
+	width: inherit;
+	position: fixed;
+	background-color: white;
+	bottom: 0;
+	margin-bottom: 6rem;
+	text-align: center;
+	display: table;
+}
+.page-content-rider-details .rider-details {
+	display: inline-block;
+	width: 65%;
+	padding: 1rem;
+}
+.page-content-rider-details .rider-details img {
+	width: 5rem;
+}
+.page-content-rider-details .rider-details span {
+	font-size: 150%;
+}
+.page-content-rider-details .rider-details .rider-rating {
+	font-size: 65%;
+	margin-left: 1rem;
+}
+.page-content-rider-details .vehicle-details {
+	display: inline-block;
+	width: 35%;
+	padding: 1rem;
+}
+.page-content-rider-details .vehicle-details small {
+	margin-top: -2rem;
+}
+.page-content-rider-details button {
+	width: 80%;
+	margin: auto;
+	margin-top: 1rem;
+	margin-bottom: .5rem;
+}
+@media screen and (max-width: 1500px) {
+	.page-map {
+		height: 80vw;
+	}
+	.content-fix-book {
+		width: 40%;
+		left: 30%;
+	}
+	.button-submit-location {
+		width: 40%;
+		left: 30%;
+	}
+}
+@media screen and (max-width: 1250px) {
+	.page-map {
+		height: 80vw;
+	}
+}
+@media screen and (max-width: 1000px) {
+	.page-map {
+		height: 120vw;
+	}
+	.content-fix-book {
+		width: 50%;
+		left: 25%;
+	}
+	.button-submit-location {
+		width: 50%;
+		left: 25%;
+	}
+}
+@media screen and (max-width: 750px) {
+	.page-map {
+		height: 140vw;
+	}
+	.content-fix-book {
+		width: 60%;
+		left: 20%;
+	}
+	.button-submit-location {
+		width: 60%;
+		left: 20%;
+	}
+}
+@media screen and (max-width: 530px) {
+	.page-map {
+		height: 160vw;
+	}
+	.content-fix-book {
+		width: 70%;
+		left: 15%;
+	}
+	.button-submit-location {
+		width: 70%;
+		left: 15%;
+	}
+}
+@media screen and (max-width: 450px) {
+	.page-map {
+		height: 180vw;
+	}
+}
+@media screen and (max-width: 400px) {
+	.page-map {
+		height: 200vw;
+	}
+}
+@media screen and (max-width: 350px) {
+	.page-map {
+		height: 240vw;
+	}
+}
+@media screen and (max-width: 300px) {
+	.page-map {
+		height: 280vw;
+	}
+}
+
+
+
+
+
+
+/* Settings Design for User */
+.page-settings {
+	margin-top: 5rem;
+	width: 100%;
+	padding: 1.5rem;
+	text-align: center;
+	align-items: center;
+}
+.content-back-button {
+	background-color: transparent;
+	border: none;
+	outline: none;
+	margin-top: 4rem;
+	margin-left: 4rem;
+	color: #59CC59;
+	font-size: 200%;
+}
+.content-back-button:focus {
+	outline: none;
+}
+.content-user-pannel img {
+	display: inline-block;
+	width: 15rem;
+}
+.content-user-pannel h1 {
+	display: inline-block;
+	margin-top: 1rem;
+	color: #59CC59;
+}
+.content-settings-navigation {
+	padding: 3rem;
+}
+.content-settings-navigation ul {
+	margin-top: 5rem;
+	text-align: left;
+	margin-left: 5rem;
+}
+.content-settings-navigation ul a {
+	text-decoration: none;
+}
+.content-settings-navigation ul label {
+	margin-bottom: 2rem;
+	font-size: 150%;
+	color: #59CC59;
+}
+.content-settings-navigation ul a li {
+	list-style: none;
+	color: #6E6E82;
+	font-size: 200%;
+	margin-bottom: 5rem;
+}
+.content-settings-navigation ul a li i {
+	margin-right: 2rem;
+	color: #59CC59;
+}
+.content-account-balance {
+	font-size: 150%;
+	color: #B1B3BC;
+}
+.page-form-container {
+	width: 100%;
+	padding: 2rem;
+}
+.content-form-button {
+	font-size: 150%;
+	border-radius: 1rem;
+	padding: 1rem;
+	width: 70%;
+}
+.content-form-button:focus {
+	color: white;
+	outline: none !important;
+}
+#credit_card_name {
+	width: 98.5%;
+	margin: auto;
+}
+#credit_card_number {
+	display: inline-block;
+	width: 49%;
+	margin: auto;
+}
+#credit_card_cvc {
+	display: inline-block;
+	width: 24%;
+	margin: auto;
+}
+#credit_card_exp {
+	display: inline-block;
+	width: 24%;
+	margin: auto;
+}
+#credit_card_submit {
+	width: 90%;
+	margin: auto;
+}
+.content-amount-container {
+	width: 100%;
+	text-align: center;
+	display: block;
+}
+.page-form-container .amount-button {
+	width: 40%;
+	margin: auto;
+	display: inline-block;
+	padding: 1rem;
+	background-color: white;
+	border-radius: 3px;
+	border: 1px solid #5176FF;
+	margin-left: 1rem;
+	margin-right: 1rem;
+	color: #5176FF;
+	transition-duration: 0.3s;
+}
+.page-form-container .active {
+	width: 40%;
+	margin: auto;
+	display: inline-block;
+	padding: 1rem;
+	background-color: #5176FF;
+	border-radius: 3px;
+	border: 1px solid #5176FF;
+	margin-left: 1rem;
+	margin-right: 1rem;
+	color: white;
+	transition-duration: 0.3s;
+}
+.profile-edit-button {
+	float: right;cursor: pointer;
+}
+.content-card-old {
+	width: 90%;
+	border-radius: 2rem;
+	margin: auto;
+	color: white;
+	padding: 2rem;
+}
+.content-card-old img {
+	width: 6rem;
+	float: right;
+	margin-top: -6rem;
+}
+.divide {
+	margin: auto;margin-top: 2rem;margin-bottom: 2rem;height: 1px;width: 80%;background-color: #CECECE;
+}
+.page-content-cashout-accounts {
+	width: 100%;
+	padding: 1rem;
+}
+.content-cashout-accounts {
+	width: 100%;
+	padding: 1rem 1rem 0 1rem;
+	border-radius: 5px;
+	border: 1px solid #e7e7e7;
+}
+.content-cashout-accounts img {
+	width: 8rem;
+}
+.content-cashout-accounts-select-section {
+	width: 15%;
+	display: inline-block;
+	text-align: center;
+}
+.content-cashout-accounts-select {
+	width: 3rem;height: 3rem;;border-radius: 100px;border: 3px solid #858585;
+	margin-top: -5rem;
+}
+.account-selected {
+	background-color: #51A1FC;
+}
+.content-cashout-accounts-details {
+	width: 60%;
+	display: inline-block;
+}
+.content-cashout-accounts-type {
+	width: 25%;
+	display: inline-block;
+	margin-top: -7.5rem;
+}
+.add-account-bank-type label {
+	margin-right: 1rem;
+}
+@media screen and (max-width: 750px) {
+	.content-user-pannel img {
+		display: inline-block;
+		width: 10rem;
+	}
+	.content-user-pannel h1 {
+		display: inline-block;
+		margin-top: 1rem;
+		color: #59CC59;
+	}
+	.content-settings-navigation ul {
+		margin-top: 1rem;
+		text-align: left;
+		margin-left: 5rem;
+	}
+	.content-settings-navigation ul label {
+		margin-bottom: 1rem;
+		font-size: 120%;
+		color: #59CC59;
+	}
+	.content-settings-navigation ul a li {
+		list-style: none;
+		color: #6E6E82;
+		font-size: 170%;
+		margin-bottom: 3rem;
+	}
+}
+@media screen and (max-width: 450px) {
+	.content-settings-navigation ul {
+		margin-top: 1rem;
+		text-align: left;
+		margin-left: 1rem;
+	}
+	.content-cashout-accounts-details {
+		width: 60%;
+	}
+	.content-cashout-accounts-type {
+		width: 25%;
+		margin-top: -7.5rem;
+	}
+}
+@media screen and (max-width: 300px) {
+	.content-settings-navigation ul {
+		margin-top: 1rem;
+		text-align: left;
+		margin-left: 0rem;
+	}
+	.content-cashout-accounts-details {
+		width: 40%;
+	}
+	.content-cashout-accounts-type {
+		width: 25%;
+		margin-top: -7.5rem;
+	}
+}

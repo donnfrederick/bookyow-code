@@ -1,0 +1,162 @@
+	<div class="page-mobile">
+		<div class="page-navigation">
+			<ul>
+				<a href="/rider">
+					<li class="active">
+						<img src="/html/imgs/house.png">
+					</li>
+				</a>
+				<a href="/rider/bookings">
+					<li>
+						<img src="/html/imgs/booking_light.png">
+					</li>
+				</a>
+				<a href="/rider/map">
+					<li>
+						<img src="/html/imgs/map_light.png">
+					</li>
+				</a>
+				<a href="/rider/settings">
+					<li>
+						<img src="/html/imgs/settings_light.png">
+					</li>
+				</a>
+			</ul>
+		</div>
+		<button onclick="window.location.href = '/rider/settings'" class="content-back-button"><i class="fa fa-arrow-left"></i></button>
+		<div class="page-header-title top-6">
+			<h1>Cashout</h1>
+		</div>
+		<div class="row text-center top-6">
+			<h1 class="content-account-balance">Available Balance: Php<?=$funds?></h1>
+		</div>
+		<div class="page-form-container top-4 text-center">
+			<p class="text-muted">Bank Accounts</p>
+		<?php foreach ($accounts as $account) { $account_type = getAccountType($account['bank_type']); ?>
+			<div class="page-content-cashout-accounts" data-account="<?=$account['id']?>">
+				<div class="content-cashout-accounts text-left">
+					<div class="content-cashout-accounts-select-section">
+						<div class="content-cashout-accounts-select"></div>
+					</div>
+					<div class="content-cashout-accounts-details">
+						<small class="text-muted ml-2">Account Name:</small>
+						<p class="ml-3"><?=$account['account_name']?></p>
+						<small class="text-muted ml-2">Account Number:</small>
+						<p class="ml-3"><?=$account['account_number']?></p>
+					</div>
+					<img src="/html/imgs/<?=$account_type?>" class="content-cashout-accounts-type">
+				</div>
+			</div>
+		<?php } ?>
+			<div class="form-group">
+				<button class="btn btn-block" data-toggle="modal" data-target="#modal_add_account"><i class="fa fa-plus"></i> Add new account</button>
+			</div>
+		</div>
+		<div id="section_cashout_button" class="page-form-container text-center last-element">
+			<button class="btn btn-primary btn-block" id="cash_out">Cash out</button>
+		</div>
+	</div>
+	<div class="modal fade" id="modal_add_account" role="dialog">
+	    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Add new account</h4>
+				</div>
+				<div class="modal-body">
+					<form method="POST" id="form_add_account">
+						<div class="add-account-bank-type form-group col-12 text-center">
+							<input id="bdo" type="radio" required name="bank_type[]" value="1">
+							<label for="bdo"><img src="/html/imgs/bdo.jpg" style="width: 6rem;"></label>
+							<input id="bpi" type="radio" required name="bank_type[]" value="2">
+							<label for="bpi"><img src="/html/imgs/bpi.jpg" style="width: 6rem;"></label>
+							<input id="ub" type="radio" required name="bank_type[]" value="3">
+							<label for="ub"><img src="/html/imgs/ub.jpg" style="width: 6rem;"></label>
+							<input id="rcbc" type="radio" required name="bank_type[]" value="4">
+							<label for="rcbc"><img src="/html/imgs/rcbc.png" style="width: 6rem;"></label>
+						</div>
+						<div class="form-group">
+							<input class="form-control" type="text" required name="account_name" placeholder="Account Name">
+						</div>
+						<div class="form-group">
+							<input class="form-control" type="text" maxlength="12" required name="account_number" placeholder="Account Number">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" name="add_account" type="submit" form="form_add_account">Add Account</button>
+					<button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+	    </div>
+	</div>
+	<button type="hidden" id="click_modal_insufficient_balance" data-toggle="modal" data-target="#modal_insufficient_balance"></button>
+	<div class="modal fade" id="modal_insufficient_balance" role="dialog">
+	    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Insufficient Balance</h4>
+				</div>
+				<div class="modal-body text-center">
+					<div class="form-group">
+						<span class="text-muted"><i class="fa fa-information-circle"></i> Minimum amount to be withdraw is Php200</span>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-primary" type="button" data-dismiss="modal">Okay</button>
+					</div>
+				</div>
+				<div class="modal-footer">
+				</div>
+			</div>
+	    </div>
+	</div>
+	<button type="hidden" id="click_modal_cashout" data-toggle="modal" data-target="#modal_cashout"></button>
+	<div class="modal fade" id="modal_cashout" role="dialog">
+	    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Cash out</h4>
+				</div>
+				<div class="modal-body">
+					<form method="POST" id="form_cashout">
+						<input type="hidden" name="cashout_account">
+						<div class="form-group">
+							<input class="form-control" type="number" min="200" max="<?=$real_funds?>" required name="cashout_amount" placeholder="Cash out Amount">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" name="cashout" type="submit" form="form_cashout">Proceed</button>
+					<button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+	    </div>
+	</div>
+	<script>
+		var real_funds = <?=$real_funds?>;
+
+		if (real_funds < 200) {
+			$('#modal_insufficient_balance').modal();
+		}
+
+		$('#section_cashout_button').hide();
+		
+		$('.page-content-cashout-accounts').click(function() {
+			$('.content-cashout-accounts-select').removeClass('account-selected');
+			$(this).find('.content-cashout-accounts-select').addClass('account-selected');
+
+			var accounts_count_selected = $('.account-selected').length;
+
+			if (accounts_count_selected == 1) {
+				$('#section_cashout_button').fadeIn();
+				$('input[name=cashout_account]').val($(this).attr('data-account'));
+			}
+		});
+
+		$('#cash_out').click(function() {
+			if (real_funds < 200) {
+				$('#click_modal_insufficient_balance').click();
+			} else {
+				$('#click_modal_cashout').click();
+			}
+		});
+	</script>

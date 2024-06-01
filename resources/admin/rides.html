@@ -1,0 +1,57 @@
+			<div class="page-content-row">
+				<div class="page-content-full">
+					<h1 class="content-title"><i class="fa fa-history"></i> Rides History</h1>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Destination</th>
+								<th>Rider Name</th>
+								<th>User Name</th>
+								<th>Date</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php if ($rides) { ?>
+							<?php foreach ($rides as $ride) { $rider = find($ride['rider_id'], 'm_user'); $user = find($ride['customer_id'], 'm_user'); $customer_queue = getLocationDesired($ride['customer_queue']); $ride_id = $ride['id']; ?>
+							<tr>
+								<td><?=$ride['id']?></td>
+								<td><?=$customer_queue['desired_loc']?></td>
+								<td><?=$rider['firstname'].' '.$rider['lastname']?></td>
+								<td><?=$user['firstname'].' '.$user['lastname']?></td>
+								<td><?=date('F d, Y', strtotime($ride['create_date']))?></td>
+								<td>
+									<button type="button" class="btn btn-danger" onclick="deleteOnTable('ride');putOnDelete('<?=$ride_id?>');" data-target="#modal_delete" data-toggle="modal"><i class="fa fa-trash"></i></button>
+								</td>
+							</tr>
+							<?php } ?>
+						<?php } else { ?>
+							<tr>
+								<td>No result</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						<?php } ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal fade" id="modal_delete" role="dialog">
+			    <div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Delete Ride</h4>
+						</div>
+						<div class="modal-body">
+							<p class="text-danger"><i class="fa fa-exclamation-triangle"></i> Are you sure?</p>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-primary" onclick="proceedOnDelete();" name="proceed_delete">Delete</button>
+							<button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+						</div>
+					</div>
+			    </div>
+			</div>

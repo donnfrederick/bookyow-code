@@ -1,0 +1,99 @@
+	<div class="page-mobile">
+		<div class="page-navigation">
+			<ul>
+				<a href="/map">
+					<li>
+						<img src="/html/imgs/map_light.png">
+					</li>
+				</a>
+				<a href="/">
+					<li>
+						<img src="/html/imgs/house_light.png">
+					</li>
+				</a>
+				<a href="/settings">
+					<li class="active">
+						<img src="/html/imgs/settings.png">
+					</li>
+				</a>
+			</ul>
+		</div>
+		<button onclick="window.location.href = '/address-add'" class="content-fix-book">
+			Add Address
+		</button>
+		<button onclick="window.location.href = '/settings'" class="content-back-button"><i class="fa fa-arrow-left"></i></button>
+		<div class="page-header-title top-6">
+			<h1>Address</h1>
+		</div>
+		<div class="page-settings-content top-4 last-element">
+		<?php if ($addresses) { ?>
+			<?php foreach ($addresses as $address) { ?>
+			<div class="content-card-item text-left" data-toggle="modal" data-target="#modal_confirm_set_default_address" data-value="<?=numhash($address['id'])?>">
+				<div class="card-item-header">
+					<div class="header-left">
+						<p>
+						<?php if ($address['address_type'] == 1) { ?>
+							<i class="fa fa-home"></i>
+							Home
+						<?php } else { ?>
+							<i class="fa fa-building"></i>
+							Office
+						<?php } ?>
+						</p>
+					</div>
+				<?php if ($address['default_flg'] == 1) { ?>
+					<div class="header-date">
+						<p>Default</p>
+					</div>
+				<?php } ?>
+				</div>
+				<div class="content-card-information">
+					<?=$address['address_house']?>, <?=$address['address_barangay']?>, <?=$address['address_municipality']?>, <?=$address['address_province']?> <?=$address['address_zip']?>
+				</div>
+			</div>
+			<?php } ?>
+		<?php } else { ?>
+			<p class="content-text">All your address should be here</p>
+		<?php }?>
+		</div>
+	</div>
+	<div class="modal fade" id="modal_confirm_set_default_address" role="dialog">
+	    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Default Address</h4>
+				</div>
+				<div class="modal-body">
+					<p>Mark this address as default?</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" id="confirm_set_default_address">Yes</button>
+					<button class="btn btn-danger" data-dismiss="modal">No</button>
+				</div>
+			</div>
+	    </div>
+	</div>
+	<script>
+		var address_id = 0;
+		$('.content-card-item').click(function() {
+			address_id = $(this).attr('data-value');
+		});
+
+		$('#confirm_set_default_address').click(function() {
+			$.ajax({
+				url: 'api/default-address/change',
+				method: 'post',
+				data: {
+					address_id: address_id,
+				},
+				success:function(response) {
+					var data = JSON.parse(response);
+					if (data.result != 'error') {
+						window.location.reload();
+					} else {
+						console.log(data.error);
+					}
+				}
+			});
+		});
+	</script>

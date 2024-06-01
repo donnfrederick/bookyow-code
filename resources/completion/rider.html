@@ -1,0 +1,11 @@
+		<?php $app->checkLogin(2, '/rider/login'); ?>
+		<div class="page-main">
+			<div class="default-page">
+				<img src="/html/imgs/arrived.png">
+				<h3>Ride Completed</h3>
+				<?php if (!$req->get()->crc) { ?>
+				<p><i class="fa fa-exclamation-triangle"></i> We are unable to charge the customer for this ride</p>
+				<?php } ?>
+				<a onclick="window.location.href='/rider'">Continue</a>
+			</div>
+		</div>

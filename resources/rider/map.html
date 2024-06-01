@@ -1,0 +1,186 @@
+	<div class="page-mobile">
+		<div class="page-navigation">
+			<ul>
+				<a href="/rider">
+					<li>
+						<img src="/html/imgs/house_light.png">
+					</li>
+				</a>
+				<a href="/rider/bookings">
+					<li>
+						<img src="/html/imgs/booking_light.png">
+					</li>
+				</a>
+				<a href="/rider/map">
+					<li class="active">
+						<img src="/html/imgs/map.png">
+					</li>
+				</a>
+				<a href="/rider/settings">
+					<li>
+						<img src="/html/imgs/settings_light.png">
+					</li>
+				</a>
+			</ul>
+		</div>
+		<div class="page-map" id="map"></div>
+	<?php if ($on_ride) { ?>
+		<div class="page-content-rider-details">
+			<div class="rider-details">
+				<img src="/html/imgs/user.png">
+				<span><?=$user_details['firstname'].' '.$user_details['lastname']?></span>
+				<p><i class="fa fa-phone"></i> <?=$rider_details['phone_number']?></p>
+			</div>
+			<div class="vehicle-details">
+				<h5>Joined</h5>
+				<p><?=date('D, F d, Y', strtotime($user_details['create_date']));?></p>
+			</div>
+			<div id="arrival_section">
+			<?php if ($has_ping) { ?>
+				<p>Waiting for customer's response</p>
+			<?php } else { ?>
+				<button id="rider_button_user_arrived" type="button" class="btn btn-primary btn-block">Arrived at customer's location</button>
+			<?php } ?>
+			</div>
+		</div>
+	<?php } else { ?>
+		<?php if ($on_ride_2) { ?>
+		<div class="page-content-rider-details">
+			<div class="rider-details">
+				<img src="/html/imgs/user.png">
+				<span><?=$user_details['firstname'].' '.$user_details['lastname']?></span>
+				<p><i class="fa fa-phone"></i> <?=$rider_details['phone_number']?></p>
+			</div>
+			<div class="vehicle-details">
+				<h5>Joined</h5>
+				<p><?=date('D, F d, Y', strtotime($user_details['create_date']));?></p>
+			</div>
+			<div id="arrival_section">
+				<button id="rider_ride_finished" data-toggle="modal" data-target="#modal_fare" type="button" class="btn btn-primary btn-block">Arrived at destination</button>
+			</div>
+		</div>
+		<?php } ?>
+	<?php } ?>
+	</div>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvYzz9Qhl2NLOQrSfYqyJboUmGog1e1Ow"></script>
+<?php if ($on_ride) { ?>
+	<?php $runtime_mode = findDesc('t_runtime_mode'); ?>
+	<script>
+		var interaction_type = <?=$runtime_mode['mode']?>;
+		$('#rider_button_user_arrived').hide();
+		var ride_points = JSON.parse('<?=$ride_init_locations?>');
+		var ride_details = JSON.parse('<?=$new_ride_details?>');
+
+		$('#rider_button_user_arrived').click(function() {
+			var request = 'update_rider_ping';
+			var ride_id = ride_details.ride_id;
+
+			$.ajax({
+				url: '/api/update/ping',
+				method: 'post',
+				data: {
+					request: request,
+					ride_id: ride_id
+				},
+				success:function(response) {
+					var data = JSON.parse(response);
+
+					if (data.result == 'success') {
+						$('#arrival_section').html("<p>Waiting for customer's response</p>");
+					} else {
+						console.log(data.error);
+					}
+				}
+			});
+		});
+	</script>
+	<script src="/html/js/rider_new_map.js"></script>
+<?php } else { ?>
+	<?php if ($on_ride_2) { ?>
+		<?php $runtime_mode = findDesc('t_runtime_mode'); ?>
+	<script>
+		var interaction_type = <?=$runtime_mode['mode']?>;
+		$('#rider_ride_finished').hide();
+		var rider_queue = JSON.parse('<?=$rider_queue?>');
+		var customer_queue = JSON.parse('<?=$customer_queue?>');
+	</script>
+	<script src="/html/js/ride_map.js"></script>
+	<?php } else { ?>
+	<script src="/html/js/rider_map.js"></script>
+	<?php } ?>
+<?php } ?>
+
+<div class="modal fade" id="modal_fare" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Fare Price</h4>
+			</div>
+			<div class="modal-body">
+				<p>Please write the fare price</p>
+				<form id="form_fare" method="POST">
+					<div class="form-group">
+						<input type="tel" name="fare" min="1" minlength="1" maxlength="3" class="form-control" placeholder="0.00" required style="font-size: 200%;text-align: center;padding: 1rem;">
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" name="submit_fare_price" class="btn btn-primary" form="form_fare">Ok</button>
+				<button type="button" class="btn btn-default" id="dismiss_modal" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modal_load" role="dialog" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content" style="margin-top: 25%">
+			<div class="modal-body text-center">
+				<i class="fa fa-spinner fa-spin" style="font-size: 300%"></i>
+				<p>Please wait for customer response</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<button style="display: none" id="modal_load_click" data-toggle="modal" data-target="#modal_load"></button>
+
+<script>
+	var ride_details = JSON.parse('<?=$ride_details?>');
+
+	$('button[name=submit_fare_price]').click((e) => {
+		e.preventDefault();
+		var request = 'add';
+		var ride_id = ride_details.id;
+		let fare_price = $('#form_fare').find('input[name=fare]').val();
+
+		if (fare_price == 0) {
+			alert('Please write a valid amount');
+		} else {
+			if (fare_price == '') {
+				alert('Please write a valid amount');
+			} else {
+				$.ajax({
+					url: '/api/fare/watch',
+					method: 'post',
+					data: {
+						request:request,
+						ride_id:ride_id,
+						fare_price:fare_price
+					},
+					success:function(response) {
+						var data = JSON.parse(response);
+
+						if (data.result != 'error') {
+							$('#dismiss_modal').click();
+							$('#modal_load_click').click();
+						} else {
+							console.log(data.error);
+						}
+					}
+				});
+			}
+		}
+	});
+</script>

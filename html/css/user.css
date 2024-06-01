@@ -1,0 +1,286 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: #DAE8E7;
+	text-align: center;
+	align-items: center;
+}
+
+.page-content {
+	width: 35%;
+    min-height: 100vh !important;
+    height: 100vh;
+    margin: auto;
+    overflow-x: hidden;
+    background-color: #F0F6F6;
+}
+
+.page-content header {
+	width: inherit;
+	padding: 1rem;
+	background-color: #59CC59;
+	color: white;
+	position: fixed;
+	z-index: 1;
+}
+
+.page-content header h1 {
+	font-size: 400%;
+}
+
+.page-content header .menu-toggle {
+	float: left;
+	font-size: 200%;
+	color: white;
+	cursor: pointer;
+	margin-left: 1rem;
+	margin-top: 1rem;
+}
+
+.page-content #menu{
+	width: inherit;
+	background-color: white;
+	height: 100vh;
+	padding: 2rem 1rem 7rem 1rem;
+	margin-left: -100%;
+	text-align: left;
+	transition-duration: 0.4s;
+	position: absolute;
+	z-index: 1;
+}
+
+.page-content #menu .menu-toggle {
+	font-size: 200%;
+	color: #59CC59;
+	cursor: pointer;
+	margin-left: 1rem;
+	margin-top: 1rem;
+}
+
+.page-content #menu .user-pannel {
+	text-align: center;
+	color: #59CC59;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+}
+
+.page-content #menu .user-pannel img {
+	width: 9rem;
+}
+
+.page-content #menu.active{
+	margin-left: 0;
+}
+
+.page-content #menu ul a{
+	text-decoration: none;
+}
+
+.page-content #menu ul a li{
+	list-style: none;
+	width: 100%;
+	margin-bottom: 1rem;
+	font-size: 140%;
+	color: #6FB0AC;
+}
+
+.page-content #menu ul a li i{
+	margin-right: .5rem;
+}
+
+.page-content #menu ul label{
+	color: #6FB0AC;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.page-content .page-main {
+	width: 100%;
+	padding: 1rem;
+}
+
+.page-content .page-main #first_section {
+	margin-top: 8rem;
+}
+
+.page-content .page-main .account-details {
+	width: 90%;
+	padding: 1rem;
+	margin: auto;
+}
+
+.page-content .page-main #sort {
+	margin-top: 0;
+	margin-bottom: 1rem;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+}
+
+.page-content .page-main select {
+	width: 70%;
+	margin: auto;
+}
+
+.page-content .page-main .history {
+	width: inherit;
+	color: #6FB0AC;
+	margin-bottom: 6rem;
+}
+
+.page-content .page-main .history .item{
+	width: 90%;
+	margin: auto;
+	padding: 1rem;
+	border-radius: 3px;
+	background-color: white;
+	box-shadow: 5px 10px 10px #E8F1F0;
+	text-align: left;
+	margin-bottom: 1rem;
+}
+
+.page-content .page-main .history .item .name{
+	font-size: 120%;
+	display: inline-block;
+	margin-left: 1rem;
+}
+
+.page-content .page-main .history .item .date{
+	font-size: 90%;
+	display: inline-block;
+	float: right;
+}
+
+.page-content .page-main .history .item .destination{
+	padding-left: 1rem;
+	padding-right: 1rem;
+}
+
+.page-content .page-main .history .item .destination .from span, .page-content .page-main .history .item .destination .to span{
+	font-size: 90%;
+}
+
+.page-content .page-main .history .item .destination .from p, .page-content .page-main .history .item .destination .to p{
+	margin-left: 1rem;
+}
+
+.page-content .page-main .book-button {
+	width: 30%;
+	height: 3rem;
+	font-size: 130%;
+	position: fixed;
+	bottom: 2rem;
+	background-color: #59CC59;
+	color: white;
+	border-radius: 5px;
+	line-height: 3rem;
+    left: 50%;
+    transform: translate(-50%, 0);
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid #59CC59;
+
+	-webkit-transition: 0.3s;
+}
+
+.page-content .page-main .book-button:hover {
+	background-color: white;
+	color: #59CC59;
+	transition-duration: 0.3s;
+}
+
+.page-content .page-main .book-button:focus {
+	outline: none;
+}
+
+.page-content .page-main .row {
+	width: 100%;
+	margin: auto;
+	margin-bottom: 1rem;
+}
+
+.page-content .page-main .page-container {
+	width: 100%;
+	margin-top: 8rem;
+}
+
+.page-content .page-main .page-container #map{
+	height: 65vh;z-index: 0;
+}
+
+.page-content .page-main .page-container .user-book{
+	width: 100%;
+	margin-top: 2rem;
+	background-color: #59CC59;
+	color:  white;
+	font-size: 120%;
+}
+
+.page-content .page-main .page-container .form-control {
+	font-size: 120%;
+}
+
+@media screen and (max-width: 850px) {
+	.page-content {
+		width: 60%;
+	}
+	.page-content header h1 {
+		font-size: 300%;
+	}
+	.page-content header .menu-toggle {
+		margin-top: .5rem;
+	}
+	.page-content #menu .user-pannel img {
+		width: 7rem;
+	}
+	.page-content .page-main {
+		margin-top: 8rem;
+	}
+	.page-content .page-main {
+		padding: 0;
+	}
+	.page-content .page-main .history .item {
+		padding: 0.3rem;
+	}
+	.page-content .page-main .history .item .name{
+		font-size: 100%;
+		margin-left: 0;
+		margin-top: 0.5rem;
+	}
+	.page-content .page-main .history .item .destination{
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.page-content .page-main .book-button {
+		width: 50%;
+		height: 3rem;
+		font-size: 130%;
+		bottom: 1rem;
+	}
+	.page-content .page-main .page-container #map{
+		height: 55vh;z-index: 0;
+	}
+
+}
+
+@media screen and (max-width: 650px) {
+	.page-content {
+		width: 80%;
+	}
+
+	.page-content .page-main .book-button {
+		width: 70%;
+	}
+}
+
+@media screen and (max-width: 540px) {
+	.page-content {
+		width: 100%;
+	}
+
+	.page-content .page-main .book-button {
+		width: 90%;
+	}
+}

@@ -1,0 +1,37 @@
+</body>
+</html>
+
+<script src="/html/js/script.js"></script>
+
+<?php $file_directory = explode('/', $file); ?>
+<?php if ($scripts = file_exists($htmlDirectory.'/js/'.end($file_directory).'.js')) { ?>
+<script src="/html/js/<?=end($file_directory)?>.js"></script>
+<?php } ?>
+
+<script src="/html/js/jquery.min.js"></script>
+<script src="/html/js/general.js"></script>
+<?php $user_data = $app->getLogin();$user_id = $user_data['id']; ?>
+<?php if (findBy('t_customer_queue', ['customer_id' => $user_id])) { ?>
+<script>
+	var accepted_listener = setInterval(function() {
+		var request = 'check_ride';
+		$.ajax({
+			url: '/api/book',
+			method: 'post',
+			data: {
+				request:request
+			},
+			success:function(data) {
+				if (data == 'success') {
+					window.location.href = '/map';
+					clearInterval(accepted_listener);
+				} else if (data == 'stop') {
+					clearInterval(accepted_listener);
+				} else {
+					console.log(data);
+				}
+			}
+		});
+	}, 2000);
+</script>
+<?php } ?>

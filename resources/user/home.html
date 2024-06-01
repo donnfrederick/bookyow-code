@@ -1,0 +1,131 @@
+	<div class="page-mobile">
+		<div class="page-navigation">
+			<ul>
+				<a href="/map">
+					<li>
+						<img src="/html/imgs/map_light.png">
+					</li>
+				</a>
+				<a href="/">
+					<li class="active">
+						<img src="/html/imgs/house.png">
+					</li>
+				</a>
+				<a href="/settings">
+					<li>
+						<img src="/html/imgs/settings_light.png">
+					</li>
+				</a>
+			</ul>
+		</div>
+	<?php if (!$on_queue) { ?>
+		<button onclick="window.location.href = '/map'" class="content-fix-book">
+			Book Now
+		</button>
+	<?php } ?>
+		<div class="page-header-title top-6">
+			<h1>Bookyow</h1>
+		</div>
+		<div class="page-account-card">
+			<a href="/funds" class="content-account-card background-blue">
+				<div class="account">
+					<h3>Account</h3>
+					<h1>Php<?=$funds?></h1>
+				</div>
+				<div class="icon">
+					<img src="/html/imgs/wallet_light.png">
+				</div>
+			</a>
+			<a href="/address" class="content-account-card background-red">
+				<div class="account">
+					<h3>Address</h3>
+				<?php if ($address_type == 0) { ?>
+					<h2> -- </h2>
+				<?php } elseif ($address_type == 1) { ?>
+					<h2><i class="fa fa-home"></i> Home</h2>
+				<?php } else { ?>
+					<h2><i class="fa fa-building"></i> Office</h2>
+				<?php } ?>
+				</div>
+				<div class="icon">
+					<img src="/html/imgs/home-address.png">
+				</div>
+			</a>
+		</div>
+		<div class="page-ride-history top-4">
+			<h1 class="content-title">Rides History</h1>
+		<?php if ($rides) { $ride_details = getCustomerQueue($rides[0]['customer_queue']); ?>
+			<div class="content-ride-history text-left">
+				<div class="content-ride-header">
+					<div class="account-update">
+					</div>
+					<div class="ride-date">
+						<p>
+							<i class="fa fa-calendar-day"></i>
+							<?=date('D F d', strtotime($ride_details['create_date']));?>
+						</p>
+					</div>
+				</div>
+				<div class="content-ride-to">
+					<h5>Destination:</h5>
+					<p><?=$ride_details['desired_loc']?></p>
+				</div>
+			</div>
+			<div class="view-more">
+				<a href="/rides">View All</a>
+			</div>
+		<?php } else { ?>
+			<p class="content-text">All your rides history should be here</p>
+		<?php } ?>
+		</div>
+		<div class="page-transfer-history top-4 last-element">
+			<h1 class="content-title">Funds History</h1>
+		<?php if ($transactions) { $transaction = $transactions[0]; ?>
+			<?php if ($transaction['update_type'] == 0) { $payment = getPayment($transaction['id']); ?>
+			<div class="content-transfer-history text-left">
+				<div class="content-transfer-header">
+					<div class="account-update">
+						<p>
+							+<?=addZeroes($transaction['amount'])?>
+							<i class="fa fa-coins"></i>
+						</p>
+					</div>
+					<div class="transfer-date">
+						<p>
+							<i class="fa fa-calendar-day"></i>
+							<?=date('M d, Y', strtotime($transaction['create_date']))?>
+						</p>
+					</div>
+				</div>
+				<div class="content-transfer-information">
+					<i class="fa fa-credit-card"></i> **** <?=substr($payment['account_number'], -4)?>
+					<br>
+					<?=$payment['account_name']?>
+				</div>
+			</div>
+			<?php } else { ?>
+			<div class="content-transfer-history text-left">
+				<div class="content-transfer-header">
+					<div class="account-update">
+						<p>
+							-<?=addZeroes($transaction['amount'])?>
+							<i class="fa fa-coins"></i>
+						</p>
+					</div>
+					<div class="transfer-date">
+						<p>
+							<i class="fa fa-calendar-day"></i>
+							<?=date('M d, Y', strtotime($transaction['create_date']))?>
+						</p>
+					</div>
+				</div>
+			</div>
+			<?php } ?>
+			<div class="view-more">
+				<a href="/transactions">View All</a>
+			</div>
+		<?php } else { ?>
+			<p class="content-text">All your transaction history should be here</p>
+		<?php } ?>
+		</div>
+	</div>

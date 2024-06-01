@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Bookyow Admin</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+	<link rel="stylesheet" href="/html/css/general.css">
+	<link rel="stylesheet" href="/html/css/admin.css">
+	<?php $app->checkLogin(3, '/'); ?>
+</head>
+<body>
+	<div class="page-contents-container">
+		<div class="page-content-header">
+			<div class="page-content-header-left">
+				<a class="content-sidebar-toggle"><i class="fa fa-bars"></i></a>
+				<h1 class="content-header-title">Bookyow</h1>
+			</div>
+			<div class="page-content-header-right">
+				<a class="content-account-toggle">
+					<i class="fa fa-user-circle"></i>
+				</a>
+			</div>
+		</div>
+		<div class="page-content-user-toggle" id="user_toggle">
+			<ul>
+				<a href="/admin/settings"><li><i class="fa fa-cog"></i> Settings</li></a>
+				<a href="/logout"><li><i class="fa fa-power-off"></i> Sign out</li></a>
+			</ul>
+		</div>
+		<div class="page-content-sidebar" id="side_bar">
+			<ul>
+				<a href="/admin"><li><i class="fa fa-chart-line"></i> Dashboard</li></a>
+				<a href="/admin/verifications"><li><i class="fa fa-user-check"></i> Verification Requests</li></a>
+				<a href="/admin/riders"><li><i class="fa fa-motorcycle"></i> Riders</li></a>
+				<a href="/admin/users"><li><i class="fa fa-user"></i> Users</li></a>
+				<a href="/admin/rides"><li><i class="fa fa-history"></i> Rides History</li></a>
+				<a href="/admin/funds/request"><li><i class="fa fa-coins"></i> Funds Requests</li></a>
+			</ul>
+		</div>
+		<div class="page-content-body">

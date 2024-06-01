@@ -1,0 +1,37 @@
+		<div class="page-main">
+			<div class="rider-container">
+				<div class="auth-header">
+					<span>Welcome to</span>
+					<h1>Bookyow Rider</h1>
+				</div>
+				<form id="form_register" method="POST" class="auth-content">
+					<div class="auth-item">
+						<div class="form-group">
+							<label><i class="fa fa-user"></i> Email or Phone number</label>
+						</div>
+						<input type="text" name="user" required value="<?=post('user')?>">
+					</div>
+					<div class="auth-item">
+						<div class="form-group">
+							<label><i class="fa fa-key"></i> Password</label>
+						</div>
+						<input type="password" name="password" required value="<?=post('password')?>">
+					</div>
+					<?php
+						if (countPostError()) {
+					?>
+					<div class="auth-item">
+						<p class="text-danger" id="error-handler"><i class="fa fa-exclamation-triangle"></i> <span id="admin_err"><?=getPostError()?></span></p>
+					</div>
+					<?php
+						}
+					?>
+					<div class="auth-item auth-button-container">
+						<button type="submit" class="rider-register-button" name="submit_form_login">Sign In</button>
+						<div class="form-group">
+							<a href="/rider/register">Create free account</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>

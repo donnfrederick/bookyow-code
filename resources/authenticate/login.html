@@ -1,0 +1,43 @@
+		<div class="page-main">
+			<div class="user-container">
+				<div class="auth-header">
+					<span>Welcome to</span>
+					<h1>Bookyow</h1>
+				</div>
+				<form id="form_login" class="auth-content">
+					<div class="auth-item">
+						<div class="form-group">
+							<label><i class="fa fa-user"></i> Email or Phone number</label>
+						</div>
+						<input type="text">
+					</div>
+					<div class="auth-item">
+						<div class="form-group">
+							<label><i class="fa fa-key"></i> Password</label>
+						</div>
+						<input type="password">
+					</div>
+					<div class="auth-item">
+						<p class="text-danger" id="error-handler"><i class="fa fa-exclamation-triangle"></i> <span id="admin_err"></span></p>
+					</div>
+					<div class="auth-item auth-button-container">
+						<button type="submit" id="submit_form_login">Sign In</button>
+						<div class="form-group">
+							<a href="/register">Create a free account</a>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="rider-container">
+				<div class="auth-header">
+					<h2>Bookyow<div>Rider</div></h2>
+					<span>Become a rider now for free</span>
+				</div>
+				<div class="auth-content-rider">
+					<button onclick="window.location.href='/rider/login'">Login</button>
+					<div class="form-group">
+						<a href="/rider/register">Create a free account</a>
+					</div>
+				</div>
+			</div>
+		</div>

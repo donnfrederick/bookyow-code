@@ -1,0 +1,54 @@
+			<div class="page-content-row">
+				<div class="page-content-full">
+					<h1 class="content-title"><i class="fa fa-coins"></i> Funds Requests</h1>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Name</th>
+								<th>Amount</th>
+								<th>Date Requested</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php if ($funds_requests) { ?>
+							<?php foreach ($funds_requests as $funds_request) { $user = find($funds_request['user_id'], 'm_user'); ?>
+							<tr>
+								<td><?=$funds_request['id']?></td>
+								<td><?=$user['firstname'].' '.$user['lastname']?></td>
+								<td><?=$funds_request['amount']?></td>
+								<td><?=date('F d, Y', strtotime($funds_request['create_date']))?></td>
+								<td>
+									<form method="POST">
+										<input type="hidden" name="request_id" value="<?=$funds_request['id']?>">
+										<input type="hidden" name="user_id" value="<?=$user['id']?>">
+										<input type="hidden" name="amount" value="<?=$funds_request['amount']?>">
+										<button class="btn btn-primary submit-fund-request-response" type="submit" name="submit_fund_request_approve"><i class="fa fa-check"></i></button>
+										<button class="btn btn-danger submit-fund-request-response" type="submit" name="submit_fund_request_deny"><i class="fa fa-times"></i></button>
+									</form>
+								</td>
+							</tr>
+							<?php } ?>
+						<?php } else { ?>
+							<tr>
+								<td>No result</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						<?php } ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<script>
+				$('.submit-fund-request-response').click((e) => {
+					var x = confirm('Are you sure?');
+
+					if (!x) {
+						e.preventDefault();
+					}
+				});
+			</script>

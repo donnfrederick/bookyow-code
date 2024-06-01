@@ -1,0 +1,382 @@
+	<div class="page-mobile">
+		<div class="page-navigation">
+			<ul>
+				<a href="/map">
+					<li class="active">
+						<img src="/html/imgs/map.png">
+					</li>
+				</a>
+				<a href="/">
+					<li>
+						<img src="/html/imgs/house_light.png">
+					</li>
+				</a>
+				<a href="/settings">
+					<li>
+						<img src="/html/imgs/settings_light.png">
+					</li>
+				</a>
+			</ul>
+		</div>
+	<?php if (count($queues) < 1) { ?>
+		<div class="page-location">
+			<form id="customer_destination_form" method="POST">
+				<input type="hidden" name="position_lat">
+				<input type="hidden" name="position_lng">
+				<input type="hidden" name="address_lat">
+				<input type="hidden" name="address_lng">
+				<div class="form-group">
+					<input list="suggestions" class="form-control" name="complete_address" placeholder="Complete Address">
+					<datalist id="suggestions">
+					<?php foreach (findBy('t_addresses', ['user_id' => $user_id]) as $address) { ?>
+						<option><?=$address['address_house']?>, <?=$address['address_barangay']?>, <?=$address['address_municipality']?>, <?=$address['address_province']?> <?=$address['address_zip']?></option>
+					<?php } ?>
+	              	</datalist>
+				</div>
+				<div class="form-group">
+					<span id="white_error"><span id="error_message"></span></span>
+				</div>
+			</form>
+		</div>
+	<?php } ?>
+		<div class="page-map" id="map"></div>
+	<?php if (count($queues) < 1) { ?>
+		<div id="km_div" style="position: absolute;bottom: 0;width: fit-content;background-color: blue;margin-bottom: 18rem;padding: 2rem;border-radius: 100rem;background-color: white;color: black; right: 0;margin-right: 3rem;display: none;font-size: 140%;">₱<span id="km_value"></span></div>
+		<button id="search_button" type="submit" form="customer_destination_form" name="form_book_button" class="button-submit-location">Search Bookyow</button>
+	<?php } ?>
+	<?php if ($on_ride) { ?>
+		<div class="page-content-rider-details">
+			<div class="rider-details">
+				<img src="/html/imgs/user.png">
+				<span><?=$rider_details['firstname'].' '.$rider_details['lastname']?>
+				<?php if (!$rider_ratings) { ?>
+					<span class="rider-rating">No ratings</span>
+				<?php } else { ?>
+					<span class="rider-rating"><?=$rider_ratings?> <i class="fa fa-star"></i></span>
+				<?php } ?>
+				</span>
+				<p><i class="fa fa-phone"></i> <?=$rider_details['phone_number']?></p>
+			</div>
+			<div class="vehicle-details">
+				<h3><?=$vehicle_info['plate_number']?></h3>
+				<p><?=$vehicle_info['color']?></p>
+			</div>
+			<div id="arrival_section">
+			<?php if ($has_ping) { ?>
+				<p>Waiting for rider's response</p>
+			<?php } else { ?>
+				<button id="user_button_rider_arrived" type="button" class="btn btn-primary btn-block">Rider has arrived</button>
+			<?php } ?>
+			</div>
+		</div>
+	<?php } else { ?>
+		<?php if ($on_ride_2) { ?>
+		<div class="page-content-rider-details">
+			<div class="rider-details">
+				<img src="/html/imgs/user.png">
+				<span><?=$rider_details['firstname'].' '.$rider_details['lastname']?>
+				<?php if (!$rider_ratings) { ?>
+					<span class="rider-rating">No ratings</span>
+				<?php } else { ?>
+					<span class="rider-rating"><?=$rider_ratings?> <i class="fa fa-star"></i></span>
+				<?php } ?>
+				</span>
+				<p><i class="fa fa-phone"></i> <?=$rider_details['phone_number']?></p>
+			</div>
+			<div class="vehicle-details">
+				<h3><?=$vehicle_info['plate_number']?></h3>
+				<p><?=$vehicle_info['color']?></p>
+			</div>
+			<div id="arrival_section">
+				<button id="ride_finished" data-toggle="modal" data-target="#modal_payment_method" type="button" class="btn btn-primary btn-block">Confirm drop-off</button>
+			</div>
+		</div>
+		<?php } ?>
+	<?php } ?>
+	</div>
+
+	
+
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvYzz9Qhl2NLOQrSfYqyJboUmGog1e1Ow"></script>
+	<?php if ($on_ride) { ?>
+		<?php $runtime_mode = findDesc('t_runtime_mode'); ?>
+	<script>
+		var interaction_type = <?=$runtime_mode['mode']?>;
+		$('#user_button_rider_arrived').hide();
+		var ride_points = JSON.parse('<?=$ride_init_locations?>');
+		var ride_details = JSON.parse('<?=$new_ride_details?>');
+
+		$('#user_button_rider_arrived').click(function() {
+			var request = 'update_user_ping';
+			var ride_id = ride_details.ride_id;
+
+			$.ajax({
+				url: '/api/update/ping',
+				method: 'post',
+				data: {
+					request: request,
+					ride_id: ride_id
+				},
+				success:function(response) {
+					var data = JSON.parse(response);
+
+					if (data.result == 'success') {
+						$('#arrival_section').html("<p>Waiting for rider's response</p>");
+					} else {
+						console.log(data.error);
+					}
+				}
+			});
+		});
+	</script>
+	<script src="html/js/new_map.js"></script>
+	<?php } else { ?>
+		<?php if ($on_ride_2) { ?>
+			<?php $runtime_mode = findDesc('t_runtime_mode'); ?>
+	<script>
+		var interaction_type = <?=$runtime_mode['mode']?>;
+		$('#ride_finished').hide();
+		var rider_queue = JSON.parse('<?=$rider_queue?>');
+		var customer_queue = JSON.parse('<?=$customer_queue?>');
+
+		var ride_details = JSON.parse('<?=$ride_details?>');
+
+		var check_fare = setInterval(() => {
+			var request = 'watch';
+			var ride_id = ride_details.id;
+
+			$.ajax({
+				url: '/api/fare/watch',
+				method: 'post',
+				data: {
+					request:request,
+					ride_id:ride_id
+				},
+				success:function(response) {
+					var data = JSON.parse(response);
+
+					if (data.result != 'error') {
+						if (data.value == 'completed') {
+							clearInterval(check_fare);
+
+							$('#ride_finished').show();
+						}
+					} else {
+						console.log(data.error);
+					}
+				}
+			});
+		}, 5000);
+	</script>
+	<script src="/html/js/ride_map.js"></script>
+		<?php } else { ?>
+	<script src="/html/js/user_map.js"></script>
+		<?php } ?>
+	<?php } ?>
+	<script src="html/js/general.js"></script>
+	<script>
+		$('#search_button').click(function() {
+			var complete_address = $('input[name=complete_address]').val();
+			var address_lat = $('input[name=address_lat]').val();
+			var address_lng = $('input[name=address_lng]').val();
+
+			var vars = [complete_address, address_lat, address_lng];
+
+			var errs = 0;
+
+			vars.map((value) => {
+				if (value == '') {
+					errs = errs + 1;
+				}
+			});
+
+			if (errs > 0) {
+				event.preventDefault();
+
+				$('#white_error').show();
+				$('#error_message').html('Please fill out this field');
+
+				hideErr();
+			}
+		});
+
+		var has_queue = parseInt('<?=$queues_count?>');
+	</script>
+	<?php if (findBy('t_ride', ['customer_id' => $user_id, 'status_flg' => 0])) { ?>
+	<script>
+		$(document).ready(function() {
+			var request = 'accept_queue';
+			$.ajax({
+				url: '/api/book',
+				method: 'post',
+				data: {
+					request: request
+				},
+				success:function(data) {
+					if (data == 'success') {
+						window.location.reload();
+					} else {
+						console.log(data);
+					}
+				}
+			});
+		});
+	</script>
+	<?php } ?>
+<style>
+.page-payment-methods {
+	width: 100%;
+	padding: 1rem;
+	text-align: center;
+}
+.payment-method {
+	width: 100%;
+	padding: 1.5rem;
+	border-radius: 3px;
+	margin-top: 1rem;
+	margin-bottom: 2rem;
+	outline: none;
+	border: none;
+	cursor: pointer;
+}
+.payment-method.wallet {
+	background-color: #B5A3FF;
+	color: white;
+}
+.payment-method.cash {
+	background-color: white;
+	box-shadow: 2px 5px 10px 1px #D0D0D0;
+}
+.payment-method.wallet .page-selection {
+	float: left;width: 2rem;height: 2rem;border-radius: 100px;border: none;
+	background-color: white;
+}
+.payment-method.cash .page-selection {
+	float: left;width: 2rem;height: 2rem;border-radius: 100px;border: none;
+	border: 1px solid #858585;
+}
+.payment-method .page-selection .selection {
+	display: none;
+}
+.payment-method .page-selection .selection.selected {
+	display: inline-block;
+}
+</style>
+	<div class="modal fade" id="modal_payment_method" role="dialog" data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body text-center">
+					<h2>Your fare is <span id="fare">0.00</span></h2>
+					<div class="form-group">
+						<a href="/html/imgs/fare_guide.png" target="_blank">View fare matrix</a>
+					</div>
+					<div class="page-payment-methods">
+						<p>Pay via</p>
+					<?php if ($account_balance == '0.00') { ?>
+						<button class="payment-method wallet" style="background-color: #E3DDFF">
+							<span class="page-selection">
+								<i class="fa fa-circle selection" style="color: #B5A3FF"></i>
+							</span>
+							<h2><?=$account_balance?></h2>
+							<p>Wallet</p>
+						</button>
+					<?php } else { ?>
+						<button class="payment-method wallet">
+							<span class="page-selection">
+								<i class="fa fa-circle selection" style="color: #B5A3FF"></i>
+							</span>
+							<h2><?=addZeroes($account_balance)?></h2>
+							<p>Wallet</p>
+						</button>
+					<?php } ?>
+						<p>or</p>
+						<button class="payment-method cash">
+							<span class="page-selection">
+								<i class="fa fa-circle selection"></i>
+							</span>
+							<p>Cash</p>
+						</button>
+					</div>
+					<div class="form-group">
+						<button id="add_payment_method" class="btn btn-primary btn-block">Continue</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var payment_method = 0;
+		var account_balance = '<?=$account_balance?>';
+		if (account_balance == '0.00') {
+			$('.cash').find('.selection').addClass('selected');
+			payment_method = 2;
+		}
+
+		$('.wallet').click(() => {
+			if (account_balance != '0.00') {
+				payment_method = 1;
+				$('.cash').find('.selection').removeClass('selected');
+				$('.wallet').find('.selection').addClass('selected');
+			}
+		});
+
+		$('.cash').click(() => {
+			payment_method = 2;
+			$('.wallet').find('.selection').removeClass('selected');
+			$('.cash').find('.selection').addClass('selected');
+		});
+
+		$('#add_payment_method').click(() => {
+			if (payment_method == 0) {
+				alert('Please select payment method');
+			} else {
+				if (payment_method == 1 && account_balance == '0.00') {
+					alert('Invalid payment method');
+				} else {
+					var request = 'terminate';
+					var fare = $('#fare').text();
+					$.ajax({
+						url: '/api/terminate/ride',
+						method: 'post',
+						data: {
+							request:request,
+							rider_queue_id: rider_queue.id,
+							customer_queue_id: customer_queue.id,
+							payment_method:payment_method,
+							fare:fare
+						},
+						success:function(response) {
+							var data = JSON.parse(response);
+							if (data.result != 'error') {
+								window.location.href = '/complete?ride='+data.result+'&crc='+data.credited;
+							}
+						}
+					});
+				}
+			}
+		});
+
+		$('#ride_finished').click(() => {
+			var request = 'get';
+			var ride_id = ride_details.id;
+
+			$.ajax({
+				url: '/api/fare/watch',
+				method: 'post',
+				data: {
+					request:request,
+					ride_id:ride_id
+				},
+				success:function(response) {
+					var data = JSON.parse(response);
+
+					if (data.result == 'success') {
+						$('#fare').text(data.value);
+					} else {
+						console.log(data.error);
+					}
+				}
+			});
+		});
+	</script>

@@ -1,0 +1,51 @@
+	<div class="page-mobile">
+		<div class="page-navigation">
+			<ul>
+				<a href="/map">
+					<li>
+						<img src="/html/imgs/map_light.png">
+					</li>
+				</a>
+				<a href="/">
+					<li>
+						<img src="/html/imgs/house_light.png">
+					</li>
+				</a>
+				<a href="/settings">
+					<li class="active">
+						<img src="/html/imgs/settings.png">
+					</li>
+				</a>
+			</ul>
+		</div>
+		<button onclick="window.location.href = '/settings'" class="content-back-button"><i class="fa fa-arrow-left"></i></button>
+		<div class="page-header-title top-6">
+			<h1>Favorites</h1>
+		</div>
+		<div class="page-settings-content top-4 last-element">
+		<?php if ($riders) { ?>
+			<?php foreach ($riders as $rider) { $rider_details = riderDetails($rider['rider_id']); ?>
+			<div class="content-card-item text-left">
+				<div class="card-item-header">
+					<div class="header-left">
+						<img src="<?=userGetImage($rider_details->id)?>" style="width: 4rem;">
+						<p><?=$rider_details->firstname?> <?=$rider_details->lastname?></p>
+					</div>
+					<div class="header-date">
+						<?php if (riderRatings($rider['rider_id']) == 0) { ?>
+							<span class="rider-rating">No ratings</span>
+						<?php } else { ?>
+							<span class="rider-rating"><?=riderRatings($rider['rider_id'])?> <i class="fa fa-star"></i></span>
+						<?php } ?>
+					</div>
+				</div>
+				<div class="content-card-information">
+					Joined: <?=date('M d, Y', strtotime($rider_details->create_date))?>
+				</div>
+			</div>
+			<?php } ?>
+		<?php } else { ?>
+			<p class="content-text">All your favorite riders should be here</p>
+		<?php } ?>
+		</div>
+	</div>

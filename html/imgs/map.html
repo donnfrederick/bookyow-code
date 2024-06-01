@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Bookyow</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+	<link rel="stylesheet" href="general.css">
+	<link rel="stylesheet" href="new_user.css">
+</style>
+</head>
+<body>
+	<div class="page-mobile">
+		<div class="page-navigation">
+			<ul>
+				<a href="file:///C:/Users/USER/Desktop/henlo/map.html">
+					<li class="active">
+						<img src="map.png">
+					</li>
+				</a>
+				<a href="file:///C:/Users/USER/Desktop/henlo/home.html">
+					<li>
+						<img src="house_light.png">
+					</li>
+				</a>
+				<a href="file:///C:/Users/USER/Desktop/henlo/settings.html">
+					<li>
+						<img src="settings_light.png">
+					</li>
+				</a>
+			</ul>
+		</div>
+		<div class="page-location">
+			<form id="customer_destination_form">
+				<input type="hidden" name="address_lat">
+				<input type="hidden" name="address_lng">
+				<div class="form-group">
+					<input list="suggestions" class="form-control" name="complete_address" placeholder="Complete Address">
+					<datalist id="suggestions">
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+	              	</datalist>
+				</div>
+				<div class="form-group">
+					<span id="white_error"><span id="error_message"></span></span>
+				</div>
+			</form>
+		</div>
+		<div class="page-map" id="map"></div>
+		<button id="search_button" type="submit" form="customer_destination_form" class="btn button-submit-location">Search Bookyow</button>
+	</div>
+</body>
+</html>
+<button id="toggle_address_modal" data-toggle="modal" data-target="#address_modal"></button>
+<script src="jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvYzz9Qhl2NLOQrSfYqyJboUmGog1e1Ow"></script>
+<script src="map.js"></script>
+<script src="general.js"></script>
+<script>
+	$('#search_button').click(function() {
+		var complete_address = $('input[name=complete_address]').val();
+		var address_lat = $('input[name=address_lat]').val();
+		var address_lng = $('input[name=address_lng]').val();
+
+		var vars = [complete_address, address_lat, address_lng];
+
+		var errs = 0;
+
+		vars.map((value) => {
+			if (value == '') {
+				errs = errs + 1;
+			}
+		});
+
+		if (errs > 0) {
+			event.preventDefault();
+
+			$('#white_error').show();
+			$('#error_message').html('Please fill out this field');
+
+			hideErr();
+		}
+	});
+</script>

@@ -1,0 +1,151 @@
+			<div class="page-content-row">
+				<div class="page-content-full">
+					<h1 class="content-title"><i class="fa fa-motorcycle"></i> Riders</h1>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Name</th>
+								<th>Email</th>
+								<th>Phone Number</th>
+								<th>Joined</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php if ($riders) { ?>
+							<?php foreach ($riders as $rider) { $rider_id = $rider['id']; $lastname = $rider['lastname']; $firstname = $rider['firstname']; $email = $rider['email']; $phone_number = $rider['phone_number']; ?>
+							<tr>
+								<td><?=$rider['id']?></td>
+								<td><?=$rider['firstname'].' '.$rider['lastname']?></td>
+								<td><?=$rider['email']?></td>
+								<td><?=$rider['phone_number']?></td>
+								<td><?=date('F d, Y', strtotime($rider['create_date']))?></td>
+								<td>
+									<button type="button" class="btn btn-primary" data-target="#modal_edit" data-toggle="modal" onclick="addForm('form_update_user');
+                                        addInput(['req_id', 'lastname', 'firstname', 'email', 'phone_number']);
+                                        addValue([<?=numhash($rider_id)?>, '<?=$lastname?>', '<?=$firstname?>', '<?=$email?>', '<?=$phone_number?>']);
+                                        addValueToInput();">
+										<i class="fa fa-edit"></i>
+									</button>
+									<button type="button" class="btn btn-danger" onclick="deleteOnTable('user');putOnDelete('<?=$rider_id?>');" data-target="#modal_delete" data-toggle="modal"><i class="fa fa-trash"></i></button>
+								</td>
+							</tr>
+							<?php } ?>
+						<?php } else { ?>
+							<tr>
+								<td>No result</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						<?php } ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal fade" id="modal_edit" role="dialog">
+			    <div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Update Rider Details</h4>
+						</div>
+						<div class="modal-body">
+							<form method="POST" id="form_update_user">
+								<input type="hidden" name="req_id" id="req_id">
+								<div class="form-group">
+									<p class="text-danger" id="update_user_error"></p>
+								</div>
+								<div class="form-group">
+									<input class="form-control" type="text" required name="lastname" id="lastname" placeholder="Lastname">
+								</div>
+								<div class="form-group">
+									<input class="form-control" type="text" required name="firstname" id="firstname" placeholder="Firstname">
+								</div>
+								<div class="form-group">
+									<input class="form-control" type="text" required name="email" id="email" placeholder="Email">
+								</div>
+								<div class="form-group">
+									<input class="form-control" type="tel" maxlength="11" required name="phone_number" id="phone_number" placeholder="Phone Number">
+								</div>
+								<div class="form-group">
+									<input class="form-control" type="password" name="new_pass" placeholder="New Password">
+								</div>
+								<div class="form-group">
+									<input class="form-control" type="password" name="confirm_pass" placeholder="Confirm Password">
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-primary" name="update_user" type="submit" form="form_update_user">Save Changes</button>
+							<button class="btn btn-danger" data-dismiss="modal">Discard</button>
+						</div>
+					</div>
+			    </div>
+			</div>
+			<div class="modal fade" id="modal_delete" role="dialog">
+			    <div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Delete Rider</h4>
+						</div>
+						<div class="modal-body">
+							<p class="text-danger"><i class="fa fa-exclamation-triangle"></i> Are you sure?</p>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-primary" onclick="proceedOnDelete();" name="proceed_delete">Delete</button>
+							<button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+						</div>
+					</div>
+			    </div>
+			</div>
+			<script>
+				$('button[name=update_user]').click(function() {
+					var times = '<i class="fa fa-times"></i>';
+					var lastname = $('input[name=lastname]').val();
+					var firstname = $('input[name=firstname]').val();
+					var email = $('input[name=email]').val();
+					var phone_number = $('input[name=phone_number]').val();
+					var new_pass = $('input[name=new_pass]').val();
+					var confirm_pass = $('input[name=confirm_pass]').val();
+
+					var vars = [lastname, firstname, email, phone_number];
+
+					var errs = 0;
+
+					vars.map((value) => {
+						if (value == '') {
+							errs = errs + 1;
+						}
+					});
+
+					if (errs > 0) {
+						event.preventDefault();
+						$('#update_user_error').html(times+' Please fill out all required fields');
+					} else {
+						if (new_pass != '' || confirm_pass != '') {
+							if (new_pass != confirm_pass) {
+								event.preventDefault();
+								$('#update_user_error').html(times+' Password does not match');
+							} else {
+								if (confirm_pass.length <= 6) {
+									event.preventDefault();
+									$('#update_user_error').html(times+' Password too short');
+								} else {
+									var x = confirm('Are you sure?');
+									if (!x) {
+										event.preventDefault();
+									}
+								}
+							}
+						} else {
+							var x = confirm('Are you sure?');
+							if (!x) {
+								event.preventDefault();
+							}
+						}
+					}
+				});
+			</script>

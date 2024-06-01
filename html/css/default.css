@@ -1,0 +1,47 @@
+.default-page{
+	margin-top: 15rem;
+}
+.default-page img {
+	width: 30%;
+}
+.default-page h1 {
+	font-size: 450%;
+}
+.default-page p {
+	font-size: 150%;
+}
+.default-page a {
+	color: white;
+	cursor: pointer;
+}
+.page-content-rating {
+	margin-top: 2rem;
+	margin-bottom: 3rem;
+}
+.page-content-rating h4 {
+	color: #212121;
+}
+.page-content-rating h4 .rated {
+	color: white;
+	transition-duration: .3s;
+}
+.add-favorites {
+	margin-top: 2rem;
+}
+.add-favorites label {
+	font-size: 120%;
+}
+@media screen and (max-width: 850px) {
+	.default-page{
+		margin-top: 13rem;
+	}
+	.default-page img {
+		width: 50%;
+	}
+	.default-page h1 {
+		font-size: 300%;
+	}
+	.default-page p {
+		font-size: 130%;
+	}
+}

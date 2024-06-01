@@ -1,0 +1,208 @@
+	<div class="page-mobile">
+		<div class="page-navigation">
+			<ul>
+				<a href="/rider">
+					<li>
+						<img src="/html/imgs/house_light.png">
+					</li>
+				</a>
+				<a href="/rider/bookings">
+					<li class="active">
+						<img src="/html/imgs/booking.png">
+					</li>
+				</a>
+				<a href="/rider/map">
+					<li>
+						<img src="/html/imgs/map_light.png">
+					</li>
+				</a>
+				<a href="/rider/settings">
+					<li>
+						<img src="/html/imgs/settings_light.png">
+					</li>
+				</a>
+			</ul>
+		</div>
+		<div class="page-ride-history top-4 last-element">
+			<div id="search_panel">
+			<?php if (!$on_queue) { ?>
+				<?php if ($is_verified) { ?>
+				<div class="page-rider-searching">
+					<p class="content-text">Searching...</p>
+					<h1 class="content-searching"><i class="fa fa-spinner fa-spin content-text"></i></h1>
+				</div>
+				<?php } else { ?>
+					<?php if ($queue_verification) { ?>
+				<div class="page-rider-searching">
+					<p class="content-text">Your account is not yet verified. Please wait for verification confirmation</p>
+				</div>
+					<?php } ?>
+				<?php } ?>
+			<?php } else { ?>
+				<?php if ($is_verified) { ?>
+				<div class="content-card-item text-left"><div class="card-item-header"><div class="header-left"><p><?=$customer_details['firstname'].' '.$customer_details['lastname']?></p></div></div><div class="content-ride-to"><h5>Destination:</h5><p><?=$queue_details['desired_loc']?></p></div></div>
+				<?php } ?>
+			<?php } ?>
+			</div>
+		</div>
+	</div>
+<?php if (!$on_queue && $is_verified) { ?>
+	<input type="hidden" id="is_loading">
+	<script>
+		var lat = 0
+		var lng = 0;
+
+		navigator.geolocation.getCurrentPosition(function(position) {
+			lat = position.coords.latitude;
+			lng = position.coords.longitude;
+		});
+
+		var load_area = '<div class="page-rider-searching"><p class="content-text">Searching...</p><h1 class="content-searching"><i class="fa fa-spinner fa-spin content-text"></i></h1></div>';
+
+		var denied_area = '<div class="page-rider-searching"><p class="content-text">Please allow location and refresh this page</p></div>';
+
+		$('#is_loading').val(1);
+
+		navigator.geolocation.watchPosition(function(position) {
+			// if (haversine_distance({
+			// 	lat: position.coords.latitude,
+			// 	lng: position.coords.longitude
+			// }, {
+			// 	lat: 14.129544,
+			// 	lng: 120.905203
+			// }) <= 10) { // Calculate if distance between rider and mendez cavite is less then 10km
+			// 	setInterval(function() {
+			// 		var request = 'find_queue';
+			// 		$.ajax({
+			// 			url: '/api/rider/book',
+			// 			method: 'post',
+			// 			data: {
+			// 				request:request
+			// 			},
+			// 			success:function(data) {
+			// 				if (data != 'error') {
+			// 					$('#search_panel').html(data);
+			// 					$('#is_loading').val(0);
+			// 				} else {
+			// 					if ($('#is_loading').val() != 1) {
+			// 						$('#is_loading').val(1);
+			// 						$('#search_panel').html(load_area);
+			// 					}
+			// 				}
+			// 			}
+			// 		});
+			// 	}, 1500);
+			// } else {
+			// 	alert("You're too far from Mendez, Cavite");
+			// 	window.location.href = '/rider';
+			// }
+
+			setInterval(function() {
+					var request = 'find_queue';
+					$.ajax({
+						url: '/api/rider/book',
+						method: 'post',
+						data: {
+							request:request
+						},
+						success:function(data) {
+							if (data != 'error') {
+								$('#search_panel').html(data);
+								$('#is_loading').val(0);
+							} else {
+								if ($('#is_loading').val() != 1) {
+									$('#is_loading').val(1);
+									$('#search_panel').html(load_area);
+								}
+							}
+						}
+					});
+				}, 1500);
+		},
+		function(error) {
+			if (error.code == error.PERMISSION_DENIED) {
+				$('#search_panel').html(denied_area);
+			}
+		});
+
+		function acceptBooking(queue_id) {
+			var request = 'accept_queue';
+
+			$.ajax({
+				url: '/api/rider/book',
+				method: 'post',
+				data: {
+					request:request,
+					queue_id: queue_id,
+					latitude: lat,
+					longitude: lng
+				},
+				success:function(data) {
+					if (data == 'success') {
+						window.location.href = '/rider/map';
+					} else {
+						console.log(error);
+					}
+				}
+			});
+		}
+
+		function haversine_distance(mk1, mk2) {
+		  var R = 3958.8; // Radius of the Earth in miles
+		  var rlat1 = mk1.lat * (Math.PI/180); // Convert degrees to radians
+		  var rlat2 = mk2.lat * (Math.PI/180); // Convert degrees to radians
+		  var difflat = rlat2-rlat1; // Radian difference (latitudes)
+		  var difflon = (mk2.lng-mk1.lng) * (Math.PI/180); // Radian difference (longitudes)
+
+		  var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
+		  return d * 1.6;
+		}
+	</script>
+<?php } ?>
+	
+	<button type="hidden" data-toggle="modal" data-target="#modal_not_verified" id="toggle_modal_not_verified"></button>
+	<div class="modal fade" id="modal_not_verified" role="dialog" data-keyboard="false" data-backdrop="static">
+	    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Not Verified</h4>
+				</div>
+				<div class="modal-body text-center">
+					<p>Your account is not yet verified. Please verify your account</p>
+					<button class="btn btn-primary" onclick="window.location.href = '/rider/verification'">Continue</button>
+				</div>
+				<div class="modal-footer">
+				</div>
+			</div>
+	    </div>
+	</div>
+
+	<button type="hidden" data-toggle="modal" data-target="#modal_verification" id="toggle_modal_verification"></button>
+	<div class="modal fade" id="modal_verification" role="dialog">
+	    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Pending Verified</h4>
+				</div>
+				<div class="modal-body text-center">
+					<p>Your account is not yet verified. Please wait for verification confirmation</p>
+					<button class="btn btn-primary" data-dismiss="modal">Dismiss</button>
+				</div>
+				<div class="modal-footer">
+				</div>
+			</div>
+	    </div>
+	</div>
+
+<?php if (!$is_verified) { ?>
+	<?php if ($queue_verification) { ?>
+	<script>
+		$('#toggle_modal_verification').click();
+	</script>
+	<?php } else { ?>
+	<script>
+		$('#toggle_modal_not_verified').click();
+	</script>
+	<?php } ?>
+<?php } ?>
+

@@ -1,0 +1,40 @@
+</body>
+</html>
+<?php $file_directory = explode('/', $file); ?>
+<?php if ($scripts = file_exists($htmlDirectory.'/js/'.end($file_directory).'.js')) { ?>
+<script src="/html/js/<?=end($file_directory)?>.js"></script>
+<?php } ?>
+<script src="/html/js/jquery.min.js"></script>
+<script src="/html/js/general.js"></script>
+<?php
+$rider_data = $app->getLogin();
+$rider_id = $rider_data['id'];
+if ($ride = findBy('t_ride', ['rider_id' => $rider_id, 'status_flg' => 3])) {
+	$ride = $ride[0];
+?>
+<script>
+	var request = 'check_termination';
+	var rider_queue_id = <?=$ride['rider_queue']?>;
+	var customer_queue_id = <?=$ride['customer_queue']?>;
+	
+	var checkTermination = setInterval(function() {
+		$.ajax({
+			url: '/api/terminate/ride',
+			method: 'post',
+			data: {
+				request:request,
+				rider_queue_id:rider_queue_id,
+				customer_queue_id:customer_queue_id
+			},
+			success:function(response) {
+				var data = JSON.parse(response);
+				if (data.result != 'continue') {
+					window.location.href = '/rider/complete?ride='+data.result+'&crc='+data.credited;
+				}
+			}
+		});	
+	}, 2000);
+</script>
+<?php
+}
+?>

@@ -1,0 +1,26 @@
+</div>
+	</div>
+</body>
+</html>
+<script>
+var current_route = '<?=$url?>';
+$('.content-sidebar-toggle').click(function() {
+	document.getElementById('side_bar').classList.toggle('active');
+
+	if ($('#side_bar').hasClass('active')) {
+		$('.content-sidebar-toggle').html('<i class="fa fa-times"></i>');
+	} else {
+		$('.content-sidebar-toggle').html('<i class="fa fa-bars"></i>');
+	}
+});
+$('.content-account-toggle').click(function() {
+	document.getElementById('user_toggle').classList.toggle('active');
+});
+
+$('.page-content-sidebar').find('a').each(function() {
+	if (current_route == $(this).attr('href')) {
+		$(this).find('li').addClass('active');
+	}
+});
+</script>
+<script src="/html/js/script.js"></script>

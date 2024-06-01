@@ -1,0 +1,179 @@
+	<style>
+		.upload-err {
+			display: none;
+		}
+		.upload-err-active {
+			display: block;
+		}
+	</style>
+	<div class="page-mobile">
+		<div class="page-navigation">
+			<ul>
+				<a href="/rider">
+					<li>
+						<img src="/html/imgs/house_light.png">
+					</li>
+				</a>
+				<a href="/rider/bookings">
+					<li>
+						<img src="/html/imgs/booking_light.png">
+					</li>
+				</a>
+				<a href="/rider/map">
+					<li>
+						<img src="/html/imgs/map_light.png">
+					</li>
+				</a>
+				<a href="/rider/settings">
+					<li class="active">
+						<img src="/html/imgs/settings.png">
+					</li>
+				</a>
+			</ul>
+		</div>
+		<button onclick="window.location.href = '/rider/settings'" class="content-back-button"><i class="fa fa-arrow-left"></i></button>
+		<div class="page-header-title top-6">
+			<h1>Account Verification</h1>
+		</div>
+	<?php if (!$is_verified) { ?>
+		<?php if (!$queue_verification) { ?>
+		<form enctype="multipart/form-data" method="POST" class="page-settings-content top-4 last-element">
+			<div class="content-card-item text-left">
+				<div class="card-item-header">
+					<p>Personal Information</p>
+				</div>
+				<div class="content-card-information">
+					<span class="text-muted">Driver's License: </span>
+					<span class="text-muted profile-edit-button" id="license_txt"><i class="fa fa-file-upload text-muted profile-edit-button" onclick="uploadFile('license');"></i></span>
+					<br>
+					<span id="upload_err_license" class="text-danger upload-err"><i class="fa fa-times"></i> Please upload Driver's License</span>
+					<input type="file" name="license" style="display: none;">
+					<br><br>
+					<span class="text-muted">Selfie with Driver's License: </span>
+					<span class="text-muted profile-edit-button" id="selfie_txt"><i class="fa fa-file-upload text-muted profile-edit-button" onclick="uploadFile('selfie');"></i></span>
+					<br>
+					<span id="upload_err_selfie" class="text-danger upload-err"><i class="fa fa-times"></i> Please upload Selfie with Driver's License</span>
+					<input type="file" name="selfie" style="display: none;">
+					<br><br>
+				</div>
+			</div>
+			<div class="content-card-item text-left">
+				<div class="card-item-header">
+					<p>Vehicle Information</p>
+				</div>
+				<div class="content-card-information">
+					<div class="form-group">
+						<input type="text" name="color" placeholder="Color" class="form-control">
+					</div>
+					<div class="form-group">
+						<input type="text" name="plate_number" placeholder="Plate Number" class="form-control">
+					</div>
+					<span class="text-muted">Official Receipt: </span>
+					<span class="text-muted profile-edit-button" id="or_txt"><i class="fa fa-file-upload text-muted profile-edit-button" onclick="uploadFile('vehicle_or');"></i></span>
+					<br>
+					<span id="upload_err_or" class="text-danger upload-err"><i class="fa fa-times"></i> Please upload Official Receipt</span>
+					<input type="file" name="vehicle_or" style="display: none;">
+					<br><br>
+					<span class="text-muted">Certificate of Registration: </span>
+					<span class="text-muted profile-edit-button" id="cr_txt"><i class="fa fa-file-upload text-muted profile-edit-button" onclick="uploadFile('vehicle_cr');"></i></span>
+					<br>
+					<span id="upload_err_cr" class="text-danger upload-err"><i class="fa fa-times"></i> Please upload Certificate of Registration</span>
+					<input type="file" name="vehicle_cr" style="display: none;">
+					<br><br>
+					<span class="text-muted">Photo of Vehicle: </span>
+					<span class="text-muted profile-edit-button" id="vehicle_txt"><i class="fa fa-file-upload text-muted profile-edit-button" onclick="uploadFile('vehicle');"></i></span>
+					<br>
+					<span id="upload_err_vehicle" class="text-danger upload-err"><i class="fa fa-times"></i> Please upload Photo of Vehicle</span>
+					<input type="file" name="vehicle" style="display: none;">
+				</div>
+			</div>
+			<div class="content-card-item text-left">
+				<button type="submit" name="submit_verification" class="btn btn-primary btn-block">Submit</button>
+			</div>
+		</form>
+		<?php } else { ?>
+		<div enctype="multipart/form-data" method="POST" class="page-settings-content top-4 last-element">
+			<div class="form-group col-12">
+				<h2 class="text-success">Your verification is now being processed</h2>
+			</div>
+		</div>
+		<?php } ?>
+	<?php } else { ?>
+		<div enctype="multipart/form-data" method="POST" class="page-settings-content top-4 last-element">
+			<div class="form-group col-12">
+				<h2 class="text-success"><i class="fa fa-check-circle"></i> Congratulations! Your account is now verified</h2>
+			</div>
+		</div>
+	<?php } ?>
+	</div>
+	<script>
+		var upload_vars = {'license':0, 'selfie':0, 'or':0, 'cr':0, 'vehicle':0};
+
+		function uploadFile(file_type) {
+			$('input[name='+file_type+']').click();
+		}
+
+		$('input[name=license]').on('change', function() {
+			var input_val = $(this).val();
+			var input_val_arr = input_val.split("\\");
+			var input_val_arr_sliced = input_val_arr.slice(2,3);
+
+			$('#license_txt').html(input_val_arr_sliced[0]);
+			upload_vars.license = 1;
+		});
+
+		$('input[name=selfie]').on('change', function() {
+			var input_val = $(this).val();
+			var input_val_arr = input_val.split("\\");
+			var input_val_arr_sliced = input_val_arr.slice(2,3);
+
+			$('#selfie_txt').html(input_val_arr_sliced[0]);
+			upload_vars.selfie = 1;
+		});
+
+		$('input[name=vehicle_or]').on('change', function() {
+			var input_val = $(this).val();
+			var input_val_arr = input_val.split("\\");
+			var input_val_arr_sliced = input_val_arr.slice(2,3);
+
+			$('#or_txt').html(input_val_arr_sliced[0]);
+			upload_vars.or = 1;
+		});
+
+		$('input[name=vehicle_cr]').on('change', function() {
+			var input_val = $(this).val();
+			var input_val_arr = input_val.split("\\");
+			var input_val_arr_sliced = input_val_arr.slice(2,3);
+
+			$('#cr_txt').html(input_val_arr_sliced[0]);
+			upload_vars.cr = 1;
+		});
+
+		$('input[name=vehicle]').on('change', function() {
+			var input_val = $(this).val();
+			var input_val_arr = input_val.split("\\");
+			var input_val_arr_sliced = input_val_arr.slice(2,3);
+
+			$('#vehicle_txt').html(input_val_arr_sliced[0]);
+			upload_vars.vehicle = 1;
+		});
+
+		$('button[type=submit]').click(function() {
+			var new_upload_vars = Object.entries(upload_vars);
+			var var_cnt = 0;
+			new_upload_vars.map(function(upload_var) {
+				var_cnt += upload_var[1];
+				if (upload_var[1] == 0) {
+					$('#upload_err_'+upload_var[0]).removeClass('upload-err');
+					$('#upload_err_'+upload_var[0]).addClass('upload-err-active');
+				} else {
+					$('#upload_err_'+upload_var[0]).removeClass('upload-err-active');
+					$('#upload_err_'+upload_var[0]).addClass('upload-err');
+				}
+			});
+
+			if (var_cnt < 5) {
+				event.preventDefault();
+			}
+		});
+	</script>

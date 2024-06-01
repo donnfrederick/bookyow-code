@@ -1,0 +1,246 @@
+	<div class="page-mobile">
+		<div class="page-navigation">
+			<ul>
+				<a href="/map">
+					<li>
+						<img src="/html/imgs/map_light.png">
+					</li>
+				</a>
+				<a href="/">
+					<li>
+						<img src="/html/imgs/house_light.png">
+					</li>
+				</a>
+				<a href="/settings">
+					<li class="active">
+						<img src="/html/imgs/settings.png">
+					</li>
+				</a>
+			</ul>
+		</div>
+		<button onclick="window.location.href = '/settings'" class="content-back-button"><i class="fa fa-arrow-left"></i></button>
+		<div class="page-header-title top-6">
+			<h1>Funds</h1>
+		</div>
+		<div class="row text-center top-6">
+			<h1 class="content-account-balance">Available Balance: Php<?=$funds?></h1>
+			<small class="content-account-balance" style="font-size: 90%;">GCash Number:<br>0915 218 4018 Roderick Jr</small>
+		</div>
+		<div class="page-form-container top-4 text-center">
+			<div class="form-group" id="error">
+				<span class="text-danger">Please select amount</span>
+			</div>
+			<div id="form_amount">
+				<div class="form-group" class="content-amount-container"><button class="amount-button" id="amnt_500">500</button><button class="amount-button" id="amnt_1000">1000</button></div><div class="form-group" class="content-amount-container"><button class="amount-button" id="amnt_2000">2000</button><button class="amount-button" id="amnt_5000">5000</button></div>
+			</div>
+			<div class="form-group top-4 last-element">
+				<button id="funds_add_button" class="btn content-form-button background-red">
+					<i class="fa fa-plus"></i> Add Funds
+				</button>
+
+			<?php if ($credit_card_details) { $credit_card = $credit_card_details[0]; ?>
+				<div class="content-card-old bg-primary text-left" id="form_credit_card_old">
+					<h3>**** <?=substr($credit_card['account_number'], -4)?> <i class="fa fa-credit-card"></i></h3>
+					<h4><?=$credit_card['account_name']?></h4>
+					<img src="/html/imgs/mastercard.png">
+				</div>
+				<form method="POST">
+					<input type="hidden" name="account_amount_1" id="credit_card_amount_1">
+					<input type="hidden" name="account_name_1" value="<?=$credit_card['account_name']?>">
+					<input type="hidden" name="account_number_1" value="<?=$credit_card['account_number']?>">
+					<input type="hidden" name="account_cvc_1" value="<?=$credit_card['account_cvc']?>">
+					<input type="hidden" name="account_exp_1" value="<?=$credit_card['account_exp']?>">
+					<button type="submit" name="account_submit_old" id="credit_card_submit_1"></button>
+				</form>
+				<div id="form_credit_card_divide" class="divide"></div>
+			<?php } ?>
+				<form id="form_credit_card" method="POST">
+					<div class="form-group" id="error2">
+						<span class="text-danger">Please complete credit card information</span>
+					</div>
+					<input type="hidden" name="account_amount" id="credit_card_amount">
+					<div class="form-group col-12">
+						<input type="text" name="account_name" id="credit_card_name" placeholder="Account Name" class="form-control">
+					</div>
+					<div class="form-group col-12">
+						<input inputmode="numeric" autocomplete="cc-number" maxlength="16" type="tel" name="account_number" id="credit_card_number" placeholder="Credit Card Number" class="form-control">
+						<input inputmode="numeric" maxlength="3" type="tel" name="account_cvc" id="credit_card_cvc" placeholder="CVC" class="form-control">
+						<input inputmode="numeric" maxlength="5" type="text" name="account_exp" id="credit_card_exp" placeholder="Expiry Date" class="form-control">
+					</div>
+					<div class="form-group">
+						<button type="submit" name="account_submit" id="credit_card_submit" class="btn btn-primary btn-block">Pay</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="confirm_payment_old" role="dialog">
+	    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Pay using this credit card</h4>
+				</div>
+				<div class="modal-body">
+					<p>Are you sure you want to pay with this credit card?</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" id="modal_credit_card_submit">Yes</button>
+					<button class="btn btn-danger" data-dismiss="modal">No</button>
+				</div>
+			</div>
+	    </div>
+	</div>
+	<div class="modal fade" id="payment_success" role="dialog" data-backdrop="static" data-keyboard="false">
+	    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body text-center">
+					<h3 class="text-primary"><i class="fa fa-check"></i> Top up success</h3>
+					<p class="text-success"><i class="fa fa-exclamation-circle"></i> This will reflect in your wallet after a few minutes</p>
+					<a href="/">Continue</a>
+				</div>
+			</div>
+	    </div>
+	</div>
+	<button id="button_confirm_payment_old" data-toggle="modal" data-target="#confirm_payment_old"></button>
+<?php if ($req->get()->success == 1) { ?>
+	<script>
+		$('#payment_success').modal();
+	</script>
+<?php } ?>
+	<script>
+		$('#error').hide();
+		$('#credit_card_submit_1').hide();
+
+		$('#credit_card_submit').click(function() {
+			if ($('#credit_card_amount').val() == 0) {
+				event.preventDefault();
+				$('#error').fadeIn();
+				hideErr();
+			}
+
+			var credit_card_name = $('#credit_card_name').val();
+			var credit_card_number = $('#credit_card_number').val();
+			var credit_card_cvc = $('#credit_card_cvc').val();
+			var credit_card_exp = $('#credit_card_exp').val();
+
+			var vars = [credit_card_name, credit_card_number, credit_card_cvc, credit_card_exp];
+
+		    var errs = 0;
+
+		    vars.map((value) => {
+		        if (value == '') {
+		            errs = errs + 1;
+		        }
+		    });
+
+		    if (errs > 0) {
+		    	event.preventDefault();
+				$('#error2').fadeIn();
+				hideErr();
+		    }
+		});
+
+		$('#form_amount').hide();
+		$('#form_credit_card').hide();
+		$('#form_credit_card_old').hide();
+		$('#form_credit_card_divide').hide();
+
+		$('#funds_add_button').click(function() {
+			$(this).hide();
+			$('#form_amount').fadeIn();
+			$('#form_credit_card').fadeIn();
+			$('#form_credit_card_old').fadeIn();
+			$('#form_credit_card_divide').fadeIn();
+		});
+
+		$('#amnt_500').click(function() {
+			if ($('#credit_card_amount').val() == $(this).text()) {
+				$('#credit_card_amount').val(0);
+				$('#credit_card_amount_1').val(0);
+			} else {
+				$('#credit_card_amount').val($(this).text());
+				$('#credit_card_amount_1').val($(this).text());
+			}
+
+			$('#amnt_1000').removeClass('active');
+			$('#amnt_2000').removeClass('active');
+			$('#amnt_5000').removeClass('active');
+
+			if ($(this).hasClass('active')) {
+				$(this).removeClass('active');
+			} else {
+				$(this).addClass('active');
+			}
+		});
+		$('#amnt_1000').click(function() {
+			if ($('#credit_card_amount').val() == $(this).text()) {
+				$('#credit_card_amount').val(0);
+				$('#credit_card_amount_1').val(0);
+			} else {
+				$('#credit_card_amount').val($(this).text());
+				$('#credit_card_amount_1').val($(this).text());
+			}
+
+			$('#amnt_500').removeClass('active');
+			$('#amnt_2000').removeClass('active');
+			$('#amnt_5000').removeClass('active');
+
+			if ($(this).hasClass('active')) {
+				$(this).removeClass('active');
+			} else {
+				$(this).addClass('active');
+			}
+		});
+		$('#amnt_2000').click(function() {
+			if ($('#credit_card_amount').val() == $(this).text()) {
+				$('#credit_card_amount').val(0);
+				$('#credit_card_amount_1').val(0);
+			} else {
+				$('#credit_card_amount').val($(this).text());
+				$('#credit_card_amount_1').val($(this).text());
+			}
+
+			$('#amnt_500').removeClass('active');
+			$('#amnt_1000').removeClass('active');
+			$('#amnt_5000').removeClass('active');
+
+			if ($(this).hasClass('active')) {
+				$(this).removeClass('active');
+			} else {
+				$(this).addClass('active');
+			}
+		});
+		$('#amnt_5000').click(function() {
+			if ($('#credit_card_amount').val() == $(this).text()) {
+				$('#credit_card_amount').val(0);
+				$('#credit_card_amount_1').val(0);
+			} else {
+				$('#credit_card_amount').val($(this).text());
+				$('#credit_card_amount_1').val($(this).text());
+			}
+
+			$('#amnt_500').removeClass('active');
+			$('#amnt_1000').removeClass('active');
+			$('#amnt_2000').removeClass('active');
+
+			if ($(this).hasClass('active')) {
+				$(this).removeClass('active');
+			} else {
+				$(this).addClass('active');
+			}
+		});
+
+		$('#form_credit_card_old').click(function() {
+			if ($('#credit_card_amount_1').val() == 0) {
+				$('#error').fadeIn();
+				hideErr();
+			} else {
+				$('#error').fadeOut();
+				$('#button_confirm_payment_old').click();
+			}
+		});
+
+		$('#modal_credit_card_submit').click(function() {
+			$('#credit_card_submit_1').click();
+		});
+	</script>

@@ -1,0 +1,60 @@
+/* width */
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(89, 204, 89, 0.6); 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(89, 204, 89, 0.9); 
+}
+
+.last-element {
+  margin-bottom: 8rem;
+}
+
+.background-blue {
+  background-color: #5E7FFF;
+  color: white;
+}
+
+.background-red {
+  background-color: #FC712B;
+  color: white;
+}
+
+.background-green {
+  background-color: #74FF00;
+  color: white;
+}
+
+.text-muted {
+  color: #C5C5C5;
+}
+
+.top-2 { margin-top: 2rem } .top-4 { margin-top: 4rem } .top-6 { margin-top: 6rem } .top-8 { margin-top: 8rem } .top-10 { margin-top: 10rem }
+.bot-2 { margin-bottom: 2rem } .bot-4 { margin-bottom: 4rem } .bot-6 { margin-bottom: 6rem } .bot-8 { margin-bottom: 8rem } .bot-10 { margin-bottom: 10rem }
+.ml-1 { margin-left: 1rem; } .ml-2 { margin-left: 2rem; } .ml-3 { margin-left: 3rem; } .ml-4 { margin-left: 4rem; } .ml-5 { margin-left: 5rem; }
+.input-type-block {
+  width: 100%;
+}
+
+.input-type-twin {
+  width: 100%;
+  display: flex;
+}
+
+.type-twin {
+  width: 50%;
+  display: inline-block;
+}

@@ -1,0 +1,163 @@
+			<div class="page-content-row">
+				<div class="page-content-full">
+					<div class="content-dashboard-elements background-blue">
+						<span class="element-title"><i class="fa fa-motorcycle"></i> Total Riders</span>
+						<span class="element-count"><?=count($riders)?></span>
+					</div>
+					<div class="content-dashboard-elements background-green">
+						<span class="element-title"><i class="fa fa-user"></i> Total Users</span>
+						<span class="element-count"><?=count($users)?></span>
+					</div>
+					<div class="content-dashboard-elements background-red">
+						<span class="element-title"><i class="fa fa-history"></i> Total Rides</span>
+						<span class="element-count"><?=count($rides)?></span>
+					</div>
+				</div>
+			</div>
+			<div class="page-content-row">
+				<div class="page-content-full">
+					<h1 class="content-title"><i class="fa fa-user-check"></i> Verification Requests</h1>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Rider Name</th>
+								<th>Email</th>
+								<th>Phone Number</th>
+								<th>Date Requested</th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php if ($verification_reqs) { ?>
+							<?php foreach ($verification_reqs as $verification_req) { $rider = find($verification_req['rider_id'], 'm_user'); ?>
+							<tr>
+								<td><?=$verification_req['id']?></td>
+								<td><?=$rider['firstname'].' '.$rider['lastname']?></td>
+								<td><?=$rider['email']?></td>
+								<td><?=$rider['phone_number']?></td>
+								<td><?=date('F d, Y', strtotime($verification_req['create_date']))?></td>
+							</tr>
+							<?php } ?>
+						<?php } else { ?>
+							<tr>
+								<td>No result</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						<?php } ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="page-content-row">
+				<div class="page-content-full">
+					<h1 class="content-title"><i class="fa fa-user"></i> Users</h1>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Name</th>
+								<th>Email</th>
+								<th>Phone Number</th>
+								<th>Joined</th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php if ($users) { ?>
+							<?php foreach ($users as $user) { ?>
+							<tr>
+								<td><?=$user['id']?></td>
+								<td><?=$user['firstname'].' '.$user['lastname']?></td>
+								<td><?=$user['email']?></td>
+								<td><?=$user['phone_number']?></td>
+								<td><?=date('F d, Y', strtotime($user['create_date']))?></td>
+							</tr>
+							<?php } ?>
+						<?php } else { ?>
+							<tr>
+								<td>No result</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						<?php } ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="page-content-row">
+				<div class="page-content-full">
+					<h1 class="content-title"><i class="fa fa-motorcycle"></i> Riders</h1>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Name</th>
+								<th>Email</th>
+								<th>Phone Number</th>
+								<th>Joined</th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php if ($riders) { ?>
+							<?php foreach ($riders as $rider) { ?>
+							<tr>
+								<td><?=$rider['id']?></td>
+								<td><?=$rider['firstname'].' '.$rider['lastname']?></td>
+								<td><?=$rider['email']?></td>
+								<td><?=$rider['phone_number']?></td>
+								<td><?=date('F d, Y', strtotime($rider['create_date']))?></td>
+							</tr>
+							<?php } ?>
+						<?php } else { ?>
+							<tr>
+								<td>No result</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						<?php } ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="page-content-row">
+				<div class="page-content-full">
+					<h1 class="content-title"><i class="fa fa-history"></i> Rides History</h1>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Destination</th>
+								<th>Rider Name</th>
+								<th>User Name</th>
+								<th>Date</th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php if ($rides) { ?>
+							<?php foreach ($rides as $ride) { $rider = find($ride['rider_id'], 'm_user'); $user = find($ride['customer_id'], 'm_user'); $customer_queue = getLocationDesired($ride['customer_queue']); ?>
+							<tr>
+								<td><?=$ride['id']?></td>
+								<td><?=$customer_queue['desired_loc']?></td>
+								<td><?=$rider['firstname'].' '.$rider['lastname']?></td>
+								<td><?=$user['firstname'].' '.$user['lastname']?></td>
+								<td><?=date('F d, Y', strtotime($ride['create_date']))?></td>
+							</tr>
+							<?php } ?>
+						<?php } else { ?>
+							<tr>
+								<td>No result</td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						<?php } ?>
+						</tbody>
+					</table>
+				</div>
+			</div>

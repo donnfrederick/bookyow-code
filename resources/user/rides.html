@@ -1,0 +1,55 @@
+	<div class="page-mobile">
+		<div class="page-navigation">
+			<ul>
+				<a href="/map">
+					<li>
+						<img src="/html/imgs/map_light.png">
+					</li>
+				</a>
+				<a href="/">
+					<li>
+						<img src="/html/imgs/house_light.png">
+					</li>
+				</a>
+				<a href="/settings">
+					<li class="active">
+						<img src="/html/imgs/settings.png">
+					</li>
+				</a>
+			</ul>
+		</div>
+		<button onclick="window.location.href = '/settings'" class="content-back-button"><i class="fa fa-arrow-left"></i></button>
+		<div class="page-header-title top-6">
+			<h1>Rides History</h1>
+		</div>
+		<div class="page-ride-history top-4 last-element">
+		<?php if ($rides) { ?>
+			<?php foreach ($rides as $ride) { $location_details = getLocationDesired($ride['customer_queue']); $transaction = findByDesc('t_transactions', ['ride_id' => $ride['id']]); ?>
+			<div class="content-ride-history text-left">
+				<div class="content-ride-header">
+					<div class="account-update">
+					<?php if (checkCredit($ride['id'])) { ?>
+						<p>
+							-<?=addZeroes($transaction[0]['amount'])?>
+							<i class="fa fa-coins"></i>
+						</p>
+					<?php } ?>
+					</div>
+					<div class="ride-date">
+						<p>
+							<i class="fa fa-calendar-day"></i>
+							<?=date('F d, Y', strtotime($ride['create_date']));?>
+						</p>
+					</div>
+				</div>
+				<div class="content-ride-to">
+					<h5>Destination:</h5>
+					<p><?=$location_details['desired_loc']?></p>
+				</div>
+			</div>
+			<?php } ?>
+		<?php } else { ?>
+			<p class="content-text">All your rides history should be here</p>
+		<?php } ?>
+		</div>
+	</div>

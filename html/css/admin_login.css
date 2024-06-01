@@ -1,0 +1,20 @@
+.page-content-login-container {
+	width: 40%;
+	margin: auto;
+	background-color: white;
+	margin-top: 10%;
+	border-radius: 5px;
+	padding: 3rem;
+}
+.content-login-header-title {
+	font-size: 350%;
+	color: #59CC59;
+}
+.content-login-header-sub-title {
+	font-size: 150%;
+	margin-top: -1rem;
+}
+.page-content-login-form {
+	width: 80%;
+	margin: auto;
+}

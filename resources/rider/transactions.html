@@ -1,0 +1,73 @@
+	<div class="page-mobile">
+		<div class="page-navigation">
+			<ul>
+				<a href="/rider">
+					<li class="active">
+						<img src="/html/imgs/house.png">
+					</li>
+				</a>
+				<a href="/rider/bookings">
+					<li>
+						<img src="/html/imgs/booking_light.png">
+					</li>
+				</a>
+				<a href="/rider/map">
+					<li>
+						<img src="/html/imgs/map_light.png">
+					</li>
+				</a>
+				<a href="/rider/settings">
+					<li>
+						<img src="/html/imgs/settings_light.png">
+					</li>
+				</a>
+			</ul>
+		</div>
+		<button onclick="window.location.href = '/rider/settings'" class="content-back-button"><i class="fa fa-arrow-left"></i></button>
+		<div class="page-header-title top-6">
+			<h1>Transactions History</h1>
+		</div>
+		<div class="page-ride-history top-4 last-element">
+		<?php if ($transactions) { ?>
+			<?php foreach ($transactions as $transaction) { ?>
+				<?php if ($transaction['update_type'] == 0) { ?>
+			<div class="content-transfer-history text-left">
+				<div class="content-transfer-header">
+					<div class="account-update">
+						<p>
+							+<?=addZeroes($transaction['amount'])?>
+							<i class="fa fa-coins"></i>
+						</p>
+					</div>
+					<div class="transfer-date">
+						<p>
+							<i class="fa fa-calendar-day"></i>
+							<?=date('M d, Y', strtotime($transaction['create_date']))?>
+						</p>
+					</div>
+				</div>
+			</div>
+				<?php } else { ?>
+			<div class="content-transfer-history text-left">
+				<div class="content-transfer-header">
+					<div class="account-update">
+						<p>
+							-<?=addZeroes($transaction['amount'])?>
+							<i class="fa fa-coins"></i>
+						</p>
+					</div>
+					<div class="transfer-date">
+						<p>
+							<i class="fa fa-calendar-day"></i>
+							<?=date('M d, Y', strtotime($transaction['create_date']))?>
+						</p>
+					</div>
+				</div>
+			</div>
+				<?php } ?>
+			<?php } ?>
+		<?php } else { ?>
+			<p class="content-text">All your transaction history should be here</p>
+		<?php } ?>
+		</div>
+	</div>

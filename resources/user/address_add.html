@@ -1,0 +1,50 @@
+	<div class="page-mobile">
+		<div class="page-navigation">
+			<ul>
+				<a href="/map">
+					<li>
+						<img src="/html/imgs/map_light.png">
+					</li>
+				</a>
+				<a href="/">
+					<li>
+						<img src="/html/imgs/house_light.png">
+					</li>
+				</a>
+				<a href="/settings">
+					<li class="active">
+						<img src="/html/imgs/settings.png">
+					</li>
+				</a>
+			</ul>
+		</div>
+		<button onclick="window.location.href = '/settings'" class="content-back-button"><i class="fa fa-arrow-left"></i></button>
+		<div class="page-header-title top-6">
+			<h1>New Address</h1>
+		</div>
+		<div class="page-form-container top-4 text-center">
+			<div class="form-group top-6" id="funds_content">
+				<form>
+					<div class="form-group">
+						<button class="content-address-type btn" type="button" data-value="<?=numhash(1)?>"><i class="fa fa-home"></i> Home</button>
+						<button class="content-address-type btn" type="button" data-value="<?=numhash(2)?>"><i class="fa fa-building"></i> Office</button>
+					</div>
+					<div class="form-group">
+						<input class="form-control input-type-block" type="text" name="address_house" placeholder="Unit Number, Floor, House Number, Block & Lot, Street, Subdivision">
+					</div>
+					<div class="form-group input-type-twin">
+						<input class="form-control type-twin" type="text" name="address_barangay" placeholder="Barangay">
+						<input class="form-control type-twin" type="text" name="address_municipality" placeholder="Municipality">
+					</div>
+					<div class="form-group input-type-twin">
+						<input class="form-control type-twin" type="text" name="address_province" placeholder="Province">
+						<input class="form-control type-twin" type="text" name="address_zip" placeholder="Zip Code">
+					</div>
+					<div class="form-group">
+						<p id="error-handler" class="text-danger"><span id="admin_err"></span></p>
+						<button type="submit" name="address_submit" class="btn btn-primary btn-block">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>

@@ -1,0 +1,101 @@
+	<div class="page-mobile">
+		<div class="page-navigation">
+			<ul>
+				<a href="/rider">
+					<li class="active">
+						<img src="/html/imgs/house.png">
+					</li>
+				</a>
+				<a href="/rider/bookings">
+					<li>
+						<img src="/html/imgs/booking_light.png">
+					</li>
+				</a>
+				<a href="/rider/map">
+					<li>
+						<img src="/html/imgs/map_light.png">
+					</li>
+				</a>
+				<a href="/rider/settings">
+					<li>
+						<img src="/html/imgs/settings_light.png">
+					</li>
+				</a>
+			</ul>
+		</div>
+	<?php if (!$on_ride) { ?>
+		<?php if (!$on_ride_2) { ?>
+		<button onclick="window.location.href = 'rider/bookings'" class="content-fix-book">
+			Search Bookings
+		</button>
+		<?php } ?>
+	<?php } ?>
+		<div class="page-header-title top-6">
+			<h1>Bookyow</h1>
+		</div>
+		<div class="page-account-card">
+			<a href="/rider/transactions" class="content-account-card background-blue">
+				<div class="account">
+					<h3>Account</h3>
+					<h1>Php<?=$funds?></h1>
+				</div>
+				<div class="icon">
+					<img src="/html/imgs/wallet_light.png">
+				</div>
+			</a>
+		</div>
+		<div class="page-ride-history top-4">
+			<h1 class="content-title">Rides History</h1>
+		<?php if ($rides) { $ride_details = getCustomerQueue($rides[0]['customer_queue']);$customer_details = find($ride_details['customer_id'], 'm_user'); ?>
+			<div class="content-ride-history text-left">
+				<div class="content-ride-header">
+					<div class="account-update">
+					</div>
+					<div class="ride-date">
+						<p>
+							<i class="fa fa-calendar-day"></i>
+							<?=date('D F d', strtotime($ride_details['create_date']));?>
+						</p>
+					</div>
+				</div>
+				<div class="content-ride-to">
+					<h5><i class="fa fa-user-circle"></i> <?=$customer_details['firstname'].' '.$customer_details['lastname']?></h5>
+				</div>
+				<div class="content-ride-to">
+					<h5>Destination:</h5>
+					<p><?=$ride_details['desired_loc']?></p>
+				</div>
+			</div>
+			<div class="view-more">
+				<a href="/rider/rides">View All</a>
+			</div>
+		<?php } else { ?>
+			<p class="content-text">All your rides history should be here</p>
+		<?php } ?>
+		</div>
+		<div class="page-transfer-history top-4 last-element">
+			<h1 class="content-title">Funds History</h1>
+		<?php if ($transactions) { $transaction = $transactions[0]; ?>
+			<div class="content-transfer-history text-left">
+				<div class="content-transfer-header">
+					<div class="account-update">
+						<p>
+							+<?=addZeroes($transaction['amount'])?>
+							<i class="fa fa-coins"></i>
+						</p>
+					</div>
+					<div class="transfer-date">
+						<p>
+							<i class="fa fa-calendar-day"></i>
+							<?=date('M d, Y', strtotime($transaction['create_date']))?>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="view-more">
+				<a href="/rider/transactions">View All</a>
+			</div>
+		<?php } else { ?>
+			<p class="content-text">All your cashout history should be here</p>
+		<?php } ?>
+	</div>

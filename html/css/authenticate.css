@@ -1,0 +1,242 @@
+.page-content .page-main {
+	width: 100%;
+	padding: 0;
+}
+
+.page-content .page-main .auth-header{
+	width: inherit;
+	padding: 2rem;
+}
+
+.page-content .page-main .auth-header span {
+	font-size: 100%;
+}
+
+.page-content .page-main .auth-header h1 {
+	font-size: 450%;
+}
+
+.page-content .page-main .auth-header h2 {
+	font-size: 350%;
+}
+
+.page-content .page-main .auth-header h2 div {
+	margin-top: -1.5rem;
+	font-size: 200%;
+}
+
+.page-content .page-main .auth-content {
+	width: inherit;
+	padding: 2rem;
+	text-align: left;
+	margin-top: 2rem;
+}
+
+.page-content .page-main .auth-content #error-handler {
+	font-size: 120%;
+	background-color: white;
+	width: 80%;
+	text-align: center;
+	border-radius: 3rem;
+	margin: auto;
+	padding: .5rem 1rem .5rem 1rem;
+}
+
+.page-content .page-main .auth-content #error-handler i, .page-content .page-main .auth-content #error-handler span{
+	color: #59CC59;
+}
+
+.page-content .page-main .auth-content .auth-item {
+	margin-top: 2rem;
+}
+
+.page-content .page-main .auth-content .auth-item label {
+	font-size: 140%;
+	text-align: left;
+}
+
+.page-content .page-main .auth-content .auth-item input {
+	font-size: 140%;
+	width: 100%;
+	margin: auto;
+	background-color: inherit;
+	border-style: none;
+	border-bottom: 1px solid white;
+	margin-top: 1rem;
+	padding: .3rem 2rem .3rem 2rem;
+	color: white;
+}
+
+.page-content .page-main .rider-container .auth-content .auth-item input {
+	font-size: 140%;
+	width: 100%;
+	margin: auto;
+	background-color: inherit;
+	border-style: none;
+	border-bottom: 1px solid #59CC59;
+	color: #59CC59;
+	margin-top: 1rem;
+	padding: .3rem 2rem .3rem 2rem;
+}
+
+.page-content .page-main .auth-content .auth-item input[type=number]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+
+.page-content .page-main .auth-content .auth-item input:focus {
+	outline: none;
+}
+
+.page-content .page-main .auth-content .auth-button-container {
+	text-align: center;
+	margin-top: 3rem;
+}
+
+.page-content .page-main .auth-content .auth-item button {
+	width: 80%;
+	margin: auto;
+	border: 1px solid white;
+	border-radius: 5rem;
+	font-size: 180%;
+	background-color: white;
+	color: #59CC59;
+	padding: 1rem;
+	margin-bottom: 1rem;
+	cursor: pointer;
+
+	-webkit-transition: 0.3s;
+}
+
+.page-content .page-main .auth-content .auth-item button:hover {
+	background-color: #59CC59;
+	color: white;
+	transition-duration: 0.3s;
+}
+
+.page-content .page-main .auth-content .auth-item button:focus {
+	outline: none;
+}
+
+.page-content .page-main .auth-content .auth-item a {
+	margin-top: 1rem;
+	color: white;
+	text-decoration: none;
+	font-size: 140%;
+}
+
+.page-content .page-main .rider-container .auth-content .auth-item a {
+	margin-top: 1rem;
+	color: #59CC59;
+	text-decoration: none;
+	font-size: 140%;
+}
+
+.page-content .page-main .auth-content-rider {
+	width: 100%;
+	background-color: white;
+	color: #59CC59;
+	height: 55vh;
+}
+
+.page-content .page-main .auth-content-rider button {
+	padding: 1rem 5rem 1rem 5rem;
+	background-color: #59CC59;
+	color: white;
+	text-decoration: none;
+	font-size: 250%;
+	border-radius: 5rem;
+	margin-top: 5rem;
+	cursor: pointer;
+	border-style: none;
+	outline: none;
+	border: 1px solid #59CC59;
+	margin-bottom: 1rem;
+
+	-webkit-transition: 0.3s;
+}
+
+.page-content .page-main .auth-content-rider button:hover {
+	background-color: white;
+	color: #59CC59;
+	transition-duration: 0.3s;
+}
+
+.page-content .page-main .auth-content-rider a{
+	color: #59CC59;
+	margin-top: 2rem;
+}
+
+.page-content .page-main .auth-content .auth-item .rider-register-button {
+	width: 80%;
+	margin: auto;
+	border: 1px solid #59CC59;
+	border-radius: 5rem;
+	font-size: 180%;
+	background-color: white;
+	color: #59CC59;
+	padding: 1rem;
+	margin-bottom: 1rem;
+	cursor: pointer;
+
+	-webkit-transition: 0.3s;
+}
+
+@media screen and (max-width: 850px) {
+	.page-content .page-main {
+		margin-top: 0;
+	}
+
+	.page-content .page-main .auth-header h1 {
+		font-size: 400%;
+		padding: 1rem;
+	}
+
+	.page-content .page-main .auth-header h2 {
+		font-size: 300%;
+	}
+
+	.page-content .page-main .auth-header h2 div {
+		margin-top: -1rem;
+		font-size: 200%;
+	}
+
+	.page-content .page-main .auth-content {
+		padding: 1rem;
+		margin-top: 0;
+	}.page-content .page-main .auth-content #error-handler {
+		width: 100%;
+		font-size: 90%;
+		padding: .2rem .3rem .2rem .3rem;
+	}
+
+	.page-content .page-main .auth-content .auth-item label {
+		font-size: 100%;
+	}
+
+	.page-content .page-main .auth-content .auth-item input {
+		font-size: 100%;
+		margin-top: .5rem;
+		padding: .1rem 2rem .1rem 2rem;
+	}
+
+	.page-content .page-main .auth-content .auth-button-container {
+		margin-top: 2rem;
+	}
+
+	.page-content .page-main .auth-content .auth-item button {
+		padding: .5rem;
+		font-size: 130%;
+	}
+
+	.page-content .page-main .auth-content .auth-item a {
+		font-size: 100%;
+	}
+
+	.form-group {
+		margin-bottom: 0;
+	}
+
+	.page-content .page-main .auth-content-rider {
+		height: 45vh;
+	}
+}
